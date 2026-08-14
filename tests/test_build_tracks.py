@@ -229,3 +229,25 @@ def test_main_runs_the_guard_before_every_daily_order_write(tmp_path, monkeypatc
         "daily_order was written before the append-only guard ran"
     assert events.count("guard") >= events.count("write"), \
         "some daily_order write was not preceded by its own guard"
+
+
+def _rejected(reason):
+    from tools.build_tracks import Evaluation
+    return Evaluation("rejected", reason=reason)
+
+
+def test_refresh_updates_a_changed_rejection_reason(tmp_path):
+    """A stale reason would mislead curation triage in Task 13."""
+    text = "Radiohead - Creep\n"
+    mapping = {("Radiohead", "Creep"): _rejected("wd_missing")}
+    _run(tmp_path, text, mapping)
+
+    rejects = json.loads((tmp_path / "rejects.json").read_text())
+    assert [r["reason"] for r in rejects] == ["wd_missing"]
+
+    mapping[("Radiohead", "Creep")] = _rejected("year_conflict")
+    _run(tmp_path, text, mapping, refresh=True)
+
+    rejects = json.loads((tmp_path / "rejects.json").read_text())
+    assert [r["reason"] for r in rejects] == ["year_conflict"], "stale reason kept"
+    assert len(rejects) == 1, "refresh duplicated the reject entry"

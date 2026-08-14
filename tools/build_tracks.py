@@ -176,7 +176,7 @@ def main(argv=None, *, evaluate=evaluate_seed, data_dir=None) -> int:
 
     original_order = list(order)
     by_key = {_cache_key(t["artist"], t["title"]): t for t in tracks}
-    refused = {_cache_key(r["artist"], r["title"]) for r in rejects}
+    rejects_by_key = {_cache_key(r["artist"], r["title"]): r for r in rejects}
 
     seeds = parse_seeds(Path(args.seeds).read_text())
     print(f"{len(seeds)} seeds, {len(tracks)} already accepted, {len(rejects)} rejected")
@@ -184,7 +184,7 @@ def main(argv=None, *, evaluate=evaluate_seed, data_dir=None) -> int:
     errors = 0
     for artist, title in seeds:
         key = _cache_key(artist, title)
-        if not args.refresh and (key in by_key or key in refused):
+        if not args.refresh and (key in by_key or key in rejects_by_key):
             continue
 
         try:
@@ -196,10 +196,17 @@ def main(argv=None, *, evaluate=evaluate_seed, data_dir=None) -> int:
 
         if result.status == "rejected":
             print(f"  reject {artist} - {title} ({result.reason})")
-            if key not in refused:
-                rejects.append({"artist": artist, "title": title,
-                                "reason": result.reason})
-                refused.add(key)
+            # Update the reason in place when it changes. Skipping on mere
+            # membership would keep a stale reason forever under --refresh,
+            # and rejects.json is what curation triage reads.
+            previous = rejects_by_key.get(key)
+            if previous is None:
+                entry = {"artist": artist, "title": title, "reason": result.reason}
+                rejects.append(entry)
+                rejects_by_key[key] = entry
+                _write_json(rejects_path, rejects)
+            elif previous["reason"] != result.reason:
+                previous["reason"] = result.reason
                 _write_json(rejects_path, rejects)
             continue
 
