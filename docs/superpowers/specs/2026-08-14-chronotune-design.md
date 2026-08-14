@@ -159,6 +159,23 @@ tail, leaving past and near-future dailies untouched.
 Deterministic, identical for all players, no repeats until the list wraps, and no server
 state. A 400-track list is over a year of dailies.
 
+**Append-only is an enforced invariant, not a convention.** Violating it silently rewrites
+history — players who already solved day 12 would see a different song there, and shared
+grids would stop matching. It is therefore guarded in three places:
+
+1. **Before writing**, the builder asserts that the existing file's contents are an exact
+   prefix of the new list. Any reorder, edit, or removal aborts the write with a non-zero
+   exit and a diff of the first divergent index. `--refresh` does not exempt this;
+   re-evaluating a track's *year* is allowed, changing its *position* is not.
+2. **At startup**, the app validates that every ID in `daily_order` resolves to a track in
+   `tracks.json`, and fails loudly if not.
+3. **In tests**, a regression test loads a frozen fixture of an earlier `daily_order`,
+   runs an append, and asserts the prefix is byte-identical.
+
+A track rejected on a later rerun is *not* removed from `daily_order`; removal would shift
+every subsequent day. It stays, and the startup check surfaces it as a hard error to be
+resolved deliberately.
+
 **Infinite mode.** The client keeps a seen-list in `localStorage` and posts it; the server
 returns a random unseen track. Same guess loop, no share grid, tracks a streak instead.
 
@@ -190,6 +207,8 @@ a game, and the cost of defeating it exceeds the reward.
 | Daily track unplayable | Show the error. Substituting would break cross-player determinism. |
 | Infinite track unplayable | Client requests a different track. |
 | `tracks.json` missing or empty | Fail loudly at startup, not at first request. |
+| `daily_order` entry missing from `tracks.json` | Fail loudly at startup. Never silently skip — skipping shifts every later day. |
+| Builder would reorder `daily_order` | Abort the write, non-zero exit, report first divergent index. |
 | Malformed guess (non-integer, out of range) | Rejected server-side with a 400; the client constrains input too. |
 
 ## Testing
