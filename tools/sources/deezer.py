@@ -56,8 +56,13 @@ def normalise(text: str) -> str:
 def is_variant(title: str) -> bool:
     """True if the title advertises itself as an alternate recording.
 
-    Only text inside brackets or after a dash is examined, so a song genuinely
+    Only text inside brackets or after " - " is examined, so a song genuinely
     called "Live Forever" or "Mixed Emotions" is not rejected.
+
+    This check is deliberately redundant with the title-equality check in
+    search_track for Deezer results, but its real purpose is rejecting
+    variant-shaped SEED titles. If a seed line itself is "Take On Me (Live)",
+    exact title equality would match a live recording and only this check stops it.
     """
     qualifiers = re.findall(r"\(([^)]*)\)|\[([^\]]*)\]|\s-\s(.*)$", title)
     for groups in qualifiers:
@@ -89,7 +94,7 @@ def search_track(artist: str, title: str, *, fetch_json=_fetch_json) -> DeezerMa
 
     for entry in payload.get("data", []):
         found_title = entry.get("title", "")
-        found_artist = entry.get("artist", {}).get("name", "")
+        found_artist = (entry.get("artist") or {}).get("name", "")
 
         if not entry.get("preview"):
             continue

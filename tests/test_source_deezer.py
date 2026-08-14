@@ -76,3 +76,29 @@ def test_search_track_rejects_a_different_title():
 
 def test_search_track_returns_none_on_empty_results():
     assert search_track("Nobody", "Nothing", fetch_json=lambda url: {"data": []}) is None
+
+
+def test_variant_seed_does_not_match_an_alternate_recording():
+    """is_variant's real job: a variant-shaped SEED must not match.
+
+    Exact title equality alone would accept this, because the seed and the
+    Deezer title agree. Only the variant check rejects it.
+    """
+    payload = _payload(_track(9, "Take On Me (Live)", "a-ha"))
+
+    assert search_track("a-ha", "Take On Me (Live)", fetch_json=lambda url: payload) is None
+
+
+def test_search_track_returns_none_when_every_result_is_a_variant():
+    payload = _payload(
+        _track(1, "Bohemian Rhapsody (Live Aid)", "Queen"),
+        _track(2, "Bohemian Rhapsody (2011 Remaster)", "Queen"),
+    )
+
+    assert search_track("Queen", "Bohemian Rhapsody", fetch_json=lambda url: payload) is None
+
+
+def test_search_track_survives_a_null_artist_field():
+    payload = {"data": [{"id": 7, "title": "X", "preview": "https://cdn/x.mp3", "artist": None}]}
+
+    assert search_track("Queen", "X", fetch_json=lambda url: payload) is None
