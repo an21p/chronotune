@@ -60,3 +60,19 @@ def test_by_id_raises_keyerror_for_unknown_track(tmp_path):
 
     with pytest.raises(KeyError):
         pool.by_id(999)
+
+
+@pytest.mark.parametrize(
+    "bad_entry",
+    [
+        {"artist": "Queen", "title": "X", "year": 1975},                      # no deezer_id
+        {"deezer_id": 1, "title": "X", "year": 1975},                          # no artist
+        {"deezer_id": 1, "artist": "Q", "title": "X", "year": None},           # None year
+        {"deezer_id": "abc", "artist": "Q", "title": "X", "year": 1975},       # non-numeric id
+        {"deezer_id": 1, "artist": "Q", "title": "X", "year": "not-a-year"},   # non-numeric year
+    ],
+)
+def test_malformed_track_record_raises_pool_error(tmp_path, bad_entry):
+    """A caller wrapping startup in `except PoolError` must catch these."""
+    with pytest.raises(PoolError, match="malformed"):
+        load_pool(*_write(tmp_path, [bad_entry], []))

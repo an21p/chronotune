@@ -8,6 +8,7 @@ subsequent day and invalidate already-shared grids.
 from __future__ import annotations
 
 import json
+from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -47,26 +48,36 @@ def _read_json(path: Path):
 
 
 def load_pool(tracks_path, order_path) -> Pool:
-    raw_tracks = _read_json(Path(tracks_path))
+    tracks_path = Path(tracks_path)
+    raw_tracks = _read_json(tracks_path)
     raw_order = _read_json(Path(order_path))
 
     if not raw_tracks:
         raise PoolError("Track pool is empty. Run tools/build_tracks.py first.")
 
-    tracks = [
-        Track(
-            deezer_id=int(entry["deezer_id"]),
-            artist=entry["artist"],
-            title=entry["title"],
-            year=int(entry["year"]),
-        )
-        for entry in raw_tracks
-    ]
+    tracks = []
+    for index, entry in enumerate(raw_tracks):
+        # Every load failure must surface as PoolError so callers can wrap
+        # startup in a single except and print something usable. A malformed
+        # record would otherwise escape as a raw KeyError/TypeError/ValueError.
+        try:
+            tracks.append(
+                Track(
+                    deezer_id=int(entry["deezer_id"]),
+                    artist=entry["artist"],
+                    title=entry["title"],
+                    year=int(entry["year"]),
+                )
+            )
+        except (KeyError, TypeError, ValueError) as error:
+            raise PoolError(
+                f"{tracks_path} entry {index} is malformed: {error!r}"
+            ) from error
 
     ids = [track.deezer_id for track in tracks]
     if len(ids) != len(set(ids)):
-        duplicates = {i for i in ids if ids.count(i) > 1}
-        raise PoolError(f"duplicate deezer_id in tracks.json: {sorted(duplicates)}")
+        duplicates = sorted(i for i, n in Counter(ids).items() if n > 1)
+        raise PoolError(f"duplicate deezer_id in tracks.json: {duplicates}")
 
     known = set(ids)
     missing = [i for i in raw_order if i not in known]
