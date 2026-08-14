@@ -108,8 +108,9 @@ Operational requirements:
 
 - **Incremental** — keyed on normalised `artist|title`; reruns skip already-accepted
   tracks. `--refresh` forces re-evaluation.
-- **Cached** — raw API responses cached under `.cache/`, so adding 20 seeds to a 400-track
-  pool costs 20 lookups, not 400.
+- **Cheap reruns** — both accepted and *rejected* seeds are skipped on a rerun, so adding
+  20 seeds to a 400-track pool costs 20 lookups, not 400. Skipping rejects matters most:
+  they are the seeds that cost two slow lookups to fail.
 - **Rate-limited** — MusicBrainz at 1 request/second (their published rule) with a
   descriptive User-Agent; Wikidata polite; both with retry and backoff.
 - **Resumable** — output written after each acceptance so a crash does not lose progress.
