@@ -49,3 +49,32 @@ def test_rate_limit_sleep_is_called():
                        sleep=calls.append)
 
     assert calls == [1.1], "MusicBrainz requires 1 req/s; must sleep after each call"
+
+
+def test_query_escapes_double_quotes_in_input():
+    """An unescaped quote would close the Lucene phrase early."""
+    captured = {}
+
+    def capture(url):
+        captured["url"] = url
+        return {"release-groups": []}
+
+    first_release_year('Weird "Al" Yankovic', "Eat It",
+                       fetch_json=capture, sleep=lambda s: None)
+
+    assert "%5C%22Al%5C%22" in captured["url"] or '\\"Al\\"' in captured["url"]
+
+
+def test_rate_limit_sleep_happens_even_when_the_request_raises():
+    """The finally: block must honour the rate limit on the error path too."""
+    import pytest
+
+    calls = []
+
+    def boom(url):
+        raise OSError("connection reset")
+
+    with pytest.raises(OSError):
+        first_release_year("A", "B", fetch_json=boom, sleep=calls.append)
+
+    assert calls == [1.1]
