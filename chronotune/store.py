@@ -49,8 +49,9 @@ def _read_json(path: Path):
 
 def load_pool(tracks_path, order_path) -> Pool:
     tracks_path = Path(tracks_path)
+    order_path = Path(order_path)
     raw_tracks = _read_json(tracks_path)
-    raw_order = _read_json(Path(order_path))
+    raw_order = _read_json(order_path)
 
     if not raw_tracks:
         raise PoolError("Track pool is empty. Run tools/build_tracks.py first.")
@@ -78,6 +79,14 @@ def load_pool(tracks_path, order_path) -> Pool:
     if len(ids) != len(set(ids)):
         duplicates = sorted(i for i, n in Counter(ids).items() if n > 1)
         raise PoolError(f"duplicate deezer_id in tracks.json: {duplicates}")
+
+    if not raw_order:
+        # daily_track_id indexes with `% len(order)`. An empty order would
+        # raise ZeroDivisionError on the first request instead of here, and
+        # this module's contract is that a broken pool fails at startup.
+        raise PoolError(
+            f"{order_path} is empty. Run tools/build_tracks.py to populate it."
+        )
 
     known = set(ids)
     missing = [i for i in raw_order if i not in known]

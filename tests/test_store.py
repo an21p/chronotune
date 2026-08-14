@@ -76,3 +76,10 @@ def test_malformed_track_record_raises_pool_error(tmp_path, bad_entry):
     """A caller wrapping startup in `except PoolError` must catch these."""
     with pytest.raises(PoolError, match="malformed"):
         load_pool(*_write(tmp_path, [bad_entry], []))
+
+
+def test_raises_when_daily_order_is_empty(tmp_path):
+    """An empty order would ZeroDivisionError in daily_track_id at request
+    time; the pool contract is that a broken pool fails at startup."""
+    with pytest.raises(PoolError, match="empty"):
+        load_pool(*_write(tmp_path, [TRACK], []))
