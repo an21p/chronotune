@@ -1617,6 +1617,8 @@ git commit -m "feat: add game rules for snippet ladder and guess evaluation"
 Write `tests/test_share.py`:
 
 ```python
+import pytest
+
 from chronotune.share import share_text
 
 
@@ -1644,12 +1646,34 @@ def test_grid_always_has_six_cells():
     assert grid == "🟩⬜⬜⬜⬜⬜"
 
 
-def test_no_answer_year_leaks_into_the_share_text():
-    """Sharing must not spoil the answer for anyone reading it."""
-    text = share_text(142, [1980, 1991], 1991)
+@pytest.mark.parametrize(
+    "guesses,answer",
+    [([1980, 1991], 1991), ([1960, 1965, 1970, 1975, 1980, 1985], 2020), ([], 1999)],
+)
+def test_no_year_leaks_into_the_share_text(guesses, answer):
+    """Sharing must not spoil the puzzle for anyone reading it.
 
-    assert "1991" not in text
-    assert "1980" not in text
+    Asserts the property directly rather than enumerating two literals, so a
+    future format change that interpolated any year would fail here.
+    """
+    text = share_text(142, guesses, answer)
+
+    for year in list(guesses) + [answer]:
+        assert str(year) not in text
+
+
+def test_grid_stays_six_cells_when_given_too_many_guesses():
+    """[x] * negative is [] in Python, so an unclipped pad would overflow."""
+    grid = share_text(1, [1960, 1961, 1962, 1963, 1964, 1965, 1966], 1991).splitlines()[1]
+
+    assert len(grid) == 6
+
+
+def test_empty_guess_list_renders_an_untouched_grid():
+    """Pinned so the Task 12 JavaScript port has a defined behaviour to match."""
+    text = share_text(9, [], 1991)
+
+    assert text == "CHRONOTUNE #9\n⬜⬜⬜⬜⬜⬜\nX/6"
 
 
 def test_speaker_count_matches_guesses_used():
@@ -1678,7 +1702,12 @@ from chronotune.game import MAX_GUESSES, UNUSED, proximity_band
 
 
 def share_text(puzzle_number: int, guesses: list[int], answer: int) -> str:
-    bands = [proximity_band(guess, answer) for guess in guesses]
+    # Clip before padding. With more than MAX_GUESSES guesses the padding
+    # multiplier goes negative, and Python evaluates [x] * -1 to [] rather
+    # than raising — which would emit a grid LONGER than MAX_GUESSES cells.
+    # Rendering never crashes the end-of-round screen; is_round_over is the
+    # enforcement point for the guess count.
+    bands = [proximity_band(guess, answer) for guess in guesses][:MAX_GUESSES]
     padding = [UNUSED] * (MAX_GUESSES - len(bands))
     grid = "".join(bands + padding)
 
