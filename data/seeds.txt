@@ -1,17 +1,274 @@
 # One "Artist - Title" per line. Blank lines and # comments are ignored.
-# Expect roughly 70% to survive the MusicBrainz/Wikidata consensus check.
-Queen - Bohemian Rhapsody
-Michael Jackson - Billie Jean
-Nirvana - Smells Like Teen Spirit
-Fleetwood Mac - Dreams
-Gotye - Somebody That I Used to Know
-Kate Bush - Running Up That Hill
-Outkast - Hey Ya!
-Blur - Song 2
-The Killers - Mr. Brightside
-Amy Winehouse - Rehab
-Daft Punk - Around the World
-Radiohead - Creep
-a-ha - Take On Me
-Rick Astley - Never Gonna Give You Up
-Eminem - Lose Yourself
+# A track is accepted only when MusicBrainz and Wikidata agree on the year.
+# Expect roughly 70% to survive. Use canonical studio-single titles only —
+# anything with (Live), (Remix) or (Remastered) is rejected by design.
+
+# --- 1960s ---
+The Beatles - Hey Jude
+The Beatles - Come Together
+The Rolling Stones - Paint It Black
+The Rolling Stones - Gimme Shelter
+The Beach Boys - Good Vibrations
+Bob Dylan - Like a Rolling Stone
+The Kinks - You Really Got Me
+The Doors - Light My Fire
+Jimi Hendrix - Purple Haze
+Aretha Franklin - Respect
+Otis Redding - Dock of the Bay
+Simon and Garfunkel - The Sound of Silence
+The Who - My Generation
+Creedence Clearwater Revival - Fortunate Son
+Marvin Gaye - I Heard It Through the Grapevine
+The Velvet Underground - Sunday Morning
+Nina Simone - Feeling Good
+Johnny Cash - Ring of Fire
+Dusty Springfield - Son of a Preacher Man
+The Supremes - You Keep Me Hangin On
+
+# --- 1970s ---
+Led Zeppelin - Stairway to Heaven
+Led Zeppelin - Immigrant Song
+Pink Floyd - Money
+Pink Floyd - Wish You Were Here
+David Bowie - Heroes
+David Bowie - Life on Mars
+Fleetwood Mac - Go Your Own Way
+Fleetwood Mac - The Chain
+Stevie Wonder - Superstition
+Marvin Gaye - Whats Going On
+The Clash - London Calling
+Ramones - Blitzkrieg Bop
+Sex Pistols - Anarchy in the UK
+Blondie - Heart of Glass
+ABBA - Dancing Queen
+Bee Gees - Stayin Alive
+Donna Summer - I Feel Love
+Chic - Le Freak
+Talking Heads - Psycho Killer
+Black Sabbath - Paranoid
+Deep Purple - Smoke on the Water
+Elton John - Rocket Man
+Carole King - Its Too Late
+Joni Mitchell - Big Yellow Taxi
+Bruce Springsteen - Born to Run
+Patti Smith - Because the Night
+Kraftwerk - The Model
+The Eagles - Hotel California
+Steely Dan - Reelin In the Years
+Al Green - Lets Stay Together
+
+# --- 1980s ---
+Michael Jackson - Thriller
+Michael Jackson - Beat It
+Prince - Purple Rain
+Prince - When Doves Cry
+Madonna - Like a Prayer
+Madonna - Into the Groove
+The Smiths - This Charming Man
+The Smiths - How Soon Is Now
+New Order - Blue Monday
+Joy Division - Love Will Tear Us Apart
+The Cure - Just Like Heaven
+Depeche Mode - Enjoy the Silence
+Talking Heads - Once in a Lifetime
+Tears for Fears - Everybody Wants to Rule the World
+Simple Minds - Dont You Forget About Me
+Bon Jovi - Livin on a Prayer
+Guns N Roses - Sweet Child o Mine
+Queen - Another One Bites the Dust
+Queen - Under Pressure
+The Police - Every Breath You Take
+Duran Duran - Rio
+Eurythmics - Sweet Dreams
+Cyndi Lauper - Girls Just Want to Have Fun
+Whitney Houston - I Wanna Dance with Somebody
+Toto - Africa
+Kate Bush - Wuthering Heights
+Public Enemy - Fight the Power
+Run DMC - Walk This Way
+Grandmaster Flash - The Message
+Pixies - Where Is My Mind
+Metallica - Master of Puppets
+AC DC - Back in Black
+Journey - Dont Stop Believin
+Dexys Midnight Runners - Come On Eileen
+Soft Cell - Tainted Love
+Frankie Goes to Hollywood - Relax
+Billy Idol - Dancing with Myself
+Pet Shop Boys - West End Girls
+
+# --- 1990s ---
+Nirvana - Come as You Are
+Nirvana - Heart-Shaped Box
+Radiohead - Karma Police
+Radiohead - Paranoid Android
+Oasis - Wonderwall
+Oasis - Dont Look Back in Anger
+Blur - Girls and Boys
+Pulp - Common People
+The Verve - Bitter Sweet Symphony
+Massive Attack - Teardrop
+Portishead - Glory Box
+The Prodigy - Firestarter
+Chemical Brothers - Block Rockin Beats
+Fatboy Slim - Praise You
+Daft Punk - Da Funk
+Underworld - Born Slippy
+Beastie Boys - Sabotage
+Rage Against the Machine - Killing in the Name
+Red Hot Chili Peppers - Under the Bridge
+Pearl Jam - Alive
+Soundgarden - Black Hole Sun
+Alice in Chains - Man in the Box
+Smashing Pumpkins - 1979
+Weezer - Buddy Holly
+Green Day - Basket Case
+The Offspring - Self Esteem
+Beck - Loser
+R E M - Losing My Religion
+Sinead OConnor - Nothing Compares 2 U
+TLC - Waterfalls
+Destinys Child - Say My Name
+Lauryn Hill - Doo Wop
+Notorious B I G - Juicy
+Tupac - California Love
+Dr Dre - Nuthin but a G Thang
+Wu-Tang Clan - C R E A M
+A Tribe Called Quest - Can I Kick It
+Bjork - Army of Me
+Jeff Buckley - Last Goodbye
+Spice Girls - Wannabe
+Backstreet Boys - I Want It That Way
+Britney Spears - Baby One More Time
+Cher - Believe
+Robbie Williams - Angels
+Garbage - Only Happy When It Rains
+No Doubt - Dont Speak
+Alanis Morissette - You Oughta Know
+The Cardigans - Lovefool
+Nine Inch Nails - Closer
+Faithless - Insomnia
+
+# --- 2000s ---
+The Strokes - Last Nite
+The White Stripes - Seven Nation Army
+Arcade Fire - Wake Up
+Interpol - Obstacle 1
+Yeah Yeah Yeahs - Maps
+LCD Soundsystem - Daft Punk Is Playing at My House
+Franz Ferdinand - Take Me Out
+Arctic Monkeys - I Bet You Look Good on the Dancefloor
+Bloc Party - Banquet
+Kaiser Chiefs - I Predict a Riot
+The Libertines - Cant Stand Me Now
+Coldplay - Yellow
+Coldplay - Clocks
+Radiohead - Idioteque
+Gorillaz - Clint Eastwood
+Gorillaz - Feel Good Inc
+Eminem - The Real Slim Shady
+Eminem - Stan
+Jay-Z - 99 Problems
+Kanye West - Through the Wire
+Kanye West - Gold Digger
+OutKast - Ms Jackson
+Missy Elliott - Get Ur Freak On
+Beyonce - Crazy in Love
+Rihanna - Umbrella
+Amy Winehouse - Back to Black
+Adele - Chasing Pavements
+Justin Timberlake - Cry Me a River
+Nelly Furtado - Maneater
+Gnarls Barkley - Crazy
+MGMT - Kids
+Empire of the Sun - Walking on a Dream
+Daft Punk - One More Time
+Daft Punk - Harder Better Faster Stronger
+Justice - D A N C E
+The Killers - Somebody Told Me
+Muse - Supermassive Black Hole
+Linkin Park - In the End
+System of a Down - Chop Suey
+Queens of the Stone Age - No One Knows
+Foo Fighters - Everlong
+Sigur Ros - Hoppipolla
+Bloc Party - Helicopter
+Modest Mouse - Float On
+The Shins - New Slang
+Death Cab for Cutie - Soul Meets Body
+Snow Patrol - Run
+Kings of Leon - Sex on Fire
+
+# --- 2010s ---
+Lorde - Royals
+Daft Punk - Get Lucky
+Pharrell Williams - Happy
+Mark Ronson - Uptown Funk
+Adele - Rolling in the Deep
+Adele - Someone Like You
+Sam Smith - Stay with Me
+Ed Sheeran - Shape of You
+Ed Sheeran - Thinking Out Loud
+Taylor Swift - Blank Space
+Taylor Swift - Shake It Off
+Lana Del Rey - Video Games
+Billie Eilish - Bad Guy
+Dua Lipa - New Rules
+The Weeknd - Blinding Lights
+The Weeknd - Cant Feel My Face
+Frank Ocean - Thinkin Bout You
+Kendrick Lamar - Alright
+Kendrick Lamar - HUMBLE
+Childish Gambino - Redbone
+Drake - Hotline Bling
+Post Malone - Circles
+Travis Scott - Sicko Mode
+Cardi B - Bodak Yellow
+Robyn - Dancing On My Own
+Disclosure - Latch
+Calvin Harris - Feel So Close
+Avicii - Wake Me Up
+Swedish House Mafia - Dont You Worry Child
+Bastille - Pompeii
+Hozier - Take Me to Church
+Vance Joy - Riptide
+Alt-J - Breezeblocks
+Tame Impala - The Less I Know the Better
+Foster the People - Pumped Up Kicks
+Fun - We Are Young
+Gotye - Eyes Wide Open
+Of Monsters and Men - Little Talks
+The Lumineers - Ho Hey
+Florence and the Machine - Dog Days Are Over
+Arctic Monkeys - Do I Wanna Know
+Royal Blood - Figure It Out
+Glass Animals - Heat Waves
+Rex Orange County - Loving Is Easy
+Clairo - Pretty Girl
+Mac Miller - Self Care
+SZA - The Weekend
+Anderson Paak - Come Down
+Leon Bridges - Coming Home
+St Vincent - Digital Witness
+
+# --- 2020s ---
+Olivia Rodrigo - Drivers License
+Olivia Rodrigo - Good 4 U
+Harry Styles - Watermelon Sugar
+Harry Styles - As It Was
+Dua Lipa - Levitating
+Doja Cat - Say So
+Lil Nas X - Old Town Road
+Megan Thee Stallion - Savage
+Bad Bunny - Dakiti
+The Kid LAROI - Stay
+Steve Lacy - Bad Habit
+Wet Leg - Chaise Longue
+Fontaines D C - Boys in the Better Land
+Idles - Danny Nedelko
+Black Midi - John L
+Phoebe Bridgers - Kyoto
+Japanese Breakfast - Be Sweet
+Turnstile - Blackout
+Beach House - Space Song
+Fred again - Delilah
