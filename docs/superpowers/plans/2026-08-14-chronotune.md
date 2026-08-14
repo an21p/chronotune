@@ -1621,7 +1621,9 @@ from chronotune.share import share_text
 
 
 def test_solved_round_grid_and_summary():
-    text = share_text(142, [1985, 1998, 1991], 1991)
+    # 1980 is 11 years off (🟥), 1998 is 7 off (🟧), 1991 is correct (🟩).
+    # Picked so the grid exercises all three non-empty bands.
+    text = share_text(142, [1980, 1998, 1991], 1991)
 
     assert text == "CHRONOTUNE #142\n🟥🟧🟩⬜⬜⬜\nSolved in 3 · 🔊🔊🔊"
 
@@ -1644,10 +1646,10 @@ def test_grid_always_has_six_cells():
 
 def test_no_answer_year_leaks_into_the_share_text():
     """Sharing must not spoil the answer for anyone reading it."""
-    text = share_text(142, [1985, 1991], 1991)
+    text = share_text(142, [1980, 1991], 1991)
 
     assert "1991" not in text
-    assert "1985" not in text
+    assert "1980" not in text
 
 
 def test_speaker_count_matches_guesses_used():
