@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -25,10 +26,12 @@ if __package__ in (None, ""):
 
 from tools.sources import deezer, musicbrainz, wikidata
 
-DATA_DIR = Path("data")
-TRACKS_PATH = DATA_DIR / "tracks.json"
-ORDER_PATH = DATA_DIR / "daily_order.json"
-REJECTS_PATH = DATA_DIR / "rejects.json"
+REPO_ROOT = Path(__file__).resolve().parent.parent
+DEFAULT_DATA_DIR = REPO_ROOT / "data"
+
+TRACKS_NAME = "tracks.json"
+ORDER_NAME = "daily_order.json"
+REJECTS_NAME = "rejects.json"
 
 
 class AppendOnlyViolation(Exception):
@@ -121,76 +124,115 @@ def _load_json(path: Path, default):
 
 
 def _write_json(path: Path, payload) -> None:
+    """Write atomically.
+
+    daily_order.json is rewritten once per accepted seed. A plain write_text
+    truncates before writing, so a kill inside that window leaves a truncated
+    file — and for the file whose corruption invalidates every shared grid,
+    "recoverable from git" is not the bar. Stage then os.replace.
+    """
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n")
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    tmp.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n")
+    os.replace(tmp, path)
 
 
 def _cache_key(artist: str, title: str) -> str:
     return f"{deezer.normalise(artist)}|{deezer.normalise(title)}"
 
 
-def main(argv=None) -> int:
+def main(argv=None, *, evaluate=evaluate_seed, data_dir=None) -> int:
     parser = argparse.ArgumentParser(description="Build the Chronotune track pool.")
-    parser.add_argument("--seeds", default="data/seeds.txt")
-    parser.add_argument("--out", default=str(TRACKS_PATH))
+    parser.add_argument("--seeds", default=str(DEFAULT_DATA_DIR / "seeds.txt"))
+    parser.add_argument("--data-dir", default=None,
+                        help="Directory holding tracks.json, daily_order.json and "
+                             "rejects.json. All three move together — they are one "
+                             "consistent set and must never be split across dirs.")
     parser.add_argument("--refresh", action="store_true",
-                        help="Re-evaluate seeds already present in tracks.json")
+                        help="Re-evaluate seeds already recorded. Updates a track's "
+                             "year in place; never changes its daily_order position.")
     args = parser.parse_args(argv)
 
-    tracks_path = Path(args.out)
+    # All three files derive from one directory. Parameterising only tracks.json
+    # would let a scratch run write its pool elsewhere while still appending to
+    # the real daily_order.json — corrupting the file it looks safest to avoid.
+    base = Path(data_dir or args.data_dir or DEFAULT_DATA_DIR)
+    tracks_path = base / TRACKS_NAME
+    order_path = base / ORDER_NAME
+    rejects_path = base / REJECTS_NAME
+
     tracks = _load_json(tracks_path, [])
-    order = _load_json(ORDER_PATH, [])
-    rejects = _load_json(REJECTS_PATH, [])
+    order = _load_json(order_path, [])
+    rejects = _load_json(rejects_path, [])
+
+    # Self-heal a kill between the tracks.json and daily_order.json writes: a
+    # track recorded without its order entry would otherwise be skipped forever
+    # on rerun and never get a day.
+    in_order = set(order)
+    for track in tracks:
+        if track["deezer_id"] not in in_order:
+            order.append(track["deezer_id"])
+            in_order.add(track["deezer_id"])
 
     original_order = list(order)
-    known = {_cache_key(t["artist"], t["title"]) for t in tracks}
-    in_order = set(order)
-    # Skip previously rejected seeds too. This is the expensive case: without
-    # it, every rerun re-queries MusicBrainz and Wikidata for seeds already
-    # known to fail, at 1 req/s. Adding 20 seeds should cost 20 lookups.
+    by_key = {_cache_key(t["artist"], t["title"]): t for t in tracks}
     refused = {_cache_key(r["artist"], r["title"]) for r in rejects}
 
     seeds = parse_seeds(Path(args.seeds).read_text())
     print(f"{len(seeds)} seeds, {len(tracks)} already accepted, {len(rejects)} rejected")
 
+    errors = 0
     for artist, title in seeds:
         key = _cache_key(artist, title)
-        if not args.refresh and (key in known or key in refused):
+        if not args.refresh and (key in by_key or key in refused):
             continue
 
         try:
-            result = evaluate_seed(artist, title)
+            result = evaluate(artist, title)
         except Exception as error:  # network failures must not lose progress
-            print(f"  ERROR {artist} - {title}: {error}")
+            errors += 1
+            print(f"  ERROR {artist} - {title}: {type(error).__name__}: {error}")
             continue
 
         if result.status == "rejected":
             print(f"  reject {artist} - {title} ({result.reason})")
-            rejects.append({"artist": artist, "title": title, "reason": result.reason})
-            _write_json(REJECTS_PATH, rejects)
+            if key not in refused:
+                rejects.append({"artist": artist, "title": title,
+                                "reason": result.reason})
+                refused.add(key)
+                _write_json(rejects_path, rejects)
             continue
 
         track = result.track
         print(f"  accept {artist} - {title} -> {track['year']}")
 
-        if key not in known:
+        existing = by_key.get(key)
+        if existing is None:
             tracks.append(track)
-            known.add(key)
-        if track["deezer_id"] not in in_order:
-            order.append(track["deezer_id"])
-            in_order.add(track["deezer_id"])
+            by_key[key] = track
+            if track["deezer_id"] not in in_order:
+                order.append(track["deezer_id"])
+                in_order.add(track["deezer_id"])
+        else:
+            # Refresh updates the year in place. The deezer_id is deliberately
+            # NOT replaced: daily_order already points at it, and swapping it
+            # would strand that day on an id tracks.json no longer contains.
+            existing["year"] = track["year"]
+            existing["sources"] = track["sources"]
 
         # Resumable: persist after every acceptance so a crash loses nothing.
         assert_append_only(original_order, order)
         _write_json(tracks_path, tracks)
-        _write_json(ORDER_PATH, order)
+        _write_json(order_path, order)
 
     assert_append_only(original_order, order)
     _write_json(tracks_path, tracks)
-    _write_json(ORDER_PATH, order)
+    _write_json(order_path, order)
 
     print(f"\n{len(tracks)} tracks, {len(order)} daily slots, {len(rejects)} rejects")
-    return 0
+    if errors:
+        print(f"{errors} seed(s) errored")
+    return 1 if errors else 0
 
 
 if __name__ == "__main__":

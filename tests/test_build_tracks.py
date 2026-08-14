@@ -1,3 +1,5 @@
+import json
+
 import pytest
 
 from tools.build_tracks import (
@@ -104,10 +106,89 @@ def test_append_only_rejects_edits_in_place():
     assert "index 1" in str(excinfo.value)
 
 
-def test_append_only_regression_on_frozen_order():
-    """A frozen earlier order must survive an append byte-identically."""
-    frozen = [101, 102, 103, 104, 105]
-    updated = frozen + [106, 107]
+def _fake_evaluate(mapping):
+    """Build an evaluate() stand-in from {(artist, title): Evaluation}."""
+    def evaluate(artist, title):
+        return mapping[(artist, title)]
+    return evaluate
 
-    assert_append_only(frozen, updated)
-    assert updated[: len(frozen)] == frozen
+
+def _accepted(deezer_id, artist, title, year):
+    from tools.build_tracks import Evaluation
+    return Evaluation("accepted", track={
+        "deezer_id": deezer_id, "artist": artist, "title": title,
+        "year": year, "sources": {"musicbrainz": year, "wikidata": year},
+    })
+
+
+def _run(tmp_path, seeds_text, mapping, refresh=False):
+    from tools.build_tracks import main
+    seeds = tmp_path / "seeds.txt"
+    seeds.write_text(seeds_text)
+    argv = ["--seeds", str(seeds)] + (["--refresh"] if refresh else [])
+    main(argv, evaluate=_fake_evaluate(mapping), data_dir=str(tmp_path))
+    return json.loads((tmp_path / "daily_order.json").read_text())
+
+
+def test_main_preserves_daily_order_prefix_across_runs(tmp_path):
+    """The real regression test: main() must never disturb an existing order.
+
+    This exercises the production write path, not list concatenation. Deleting
+    assert_append_only from the source must make this fail.
+    """
+    mapping = {
+        ("Queen", "Bohemian Rhapsody"): _accepted(1, "Queen", "Bohemian Rhapsody", 1975),
+        ("Blur", "Song 2"): _accepted(2, "Blur", "Song 2", 1997),
+    }
+    first = _run(tmp_path, "Queen - Bohemian Rhapsody\n", mapping)
+    assert first == [1]
+
+    mapping[("Blur", "Song 2")] = _accepted(2, "Blur", "Song 2", 1997)
+    second = _run(tmp_path, "Queen - Bohemian Rhapsody\nBlur - Song 2\n", mapping)
+
+    assert second[: len(first)] == first, "existing days were disturbed"
+    assert second == [1, 2]
+
+
+def test_main_rerun_with_no_new_seeds_appends_nothing(tmp_path):
+    mapping = {("Queen", "Bohemian Rhapsody"): _accepted(1, "Queen", "Bohemian Rhapsody", 1975)}
+    text = "Queen - Bohemian Rhapsody\n"
+
+    first = _run(tmp_path, text, mapping)
+    second = _run(tmp_path, text, mapping)
+
+    assert first == second == [1]
+
+
+def test_refresh_never_appends_a_changed_deezer_id(tmp_path):
+    """A drifted Deezer id must not strand a day on a track that is not stored.
+
+    daily_order is append-only, so an id appended here could never be removed.
+    """
+    text = "Blur - Song 2\n"
+    mapping = {("Blur", "Song 2"): _accepted(2, "Blur", "Song 2", 1997)}
+    first = _run(tmp_path, text, mapping)
+    assert first == [2]
+
+    # Deezer's search ranking shifts and now returns a different id.
+    mapping[("Blur", "Song 2")] = _accepted(999, "Blur", "Song 2", 1997)
+    second = _run(tmp_path, text, mapping, refresh=True)
+
+    assert second == [2], "refresh must not append a drifted id"
+
+    tracks = json.loads((tmp_path / "tracks.json").read_text())
+    ids = [t["deezer_id"] for t in tracks]
+    assert set(second) <= set(ids), "daily_order references a track not in tracks.json"
+
+
+def test_main_heals_a_track_recorded_without_its_order_entry(tmp_path):
+    """Simulates a kill between the tracks.json and daily_order.json writes."""
+    (tmp_path / "tracks.json").write_text(json.dumps([{
+        "deezer_id": 7, "artist": "Blur", "title": "Song 2", "year": 1997,
+        "sources": {"musicbrainz": 1997, "wikidata": 1997},
+    }]))
+    (tmp_path / "daily_order.json").write_text("[]")
+
+    order = _run(tmp_path, "", {})
+
+    assert order == [7], "an orphaned track must be given a day on the next run"
