@@ -76,6 +76,9 @@
       <p id="error" role="alert" hidden></p>
     </div>
   </main>
+  <!-- Backend first: app.js reads window.ChronotuneAPI at startup. The static
+       build swaps this one line for vault.js + api-static.js. -->
+  <script src="{{ url_for('static', filename='api-server.js') }}"></script>
   <script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
 </html>

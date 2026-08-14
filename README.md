@@ -37,11 +37,55 @@ Two independent halves joined by a JSON contract:
 `tools/` never imports from `chronotune/` and vice versa — `data/*.json` is the
 only contract between them, and a test enforces the boundary in both directions.
 
+The frontend has a third seam. `static/app.js` never calls an endpoint; it calls
+`window.ChronotuneAPI`, which is supplied by whichever backend script loaded
+first — `api-server.js` under Flask, `api-static.js` in the deployed build. One
+UI, two backends, no forked copy.
+
 Audio comes from Deezer's free 30-second preview MP3s. Those URLs carry an
 expiry token (~7h), so only the track id is stored and the URL is resolved per
 request. The MP3s serve `access-control-allow-origin: *`, which is what lets the
 browser decode them with the Web Audio API — giving a real waveform and a
 sample-accurate stop at the snippet boundary, with no proxy in the path.
+
+## The static build
+
+Deployed to GitHub Pages at [an21p.github.io/chronotune/][live], as a submodule
+of the portfolio repo. Pages serves static files only, so the Flask half is
+replaced rather than hosted:
+
+    .venv/bin/python build_static.py --out build
+
+Every asset reference in the output is relative, so the same bundle works at the
+site root or under `/chronotune/` with no base-path substitution.
+
+Two problems have to be solved without a server:
+
+**The audio.** `api.deezer.com` sends no `access-control-allow-origin`, so a
+browser `fetch` is blocked — but it still honours JSONP, which is how
+`api-static.js` resolves the preview URL. The preview MP3 it points at *does*
+send `access-control-allow-origin: *`, so Web Audio decodes it directly, exactly
+as under Flask.
+
+**The answers.** The server withholds `track.year` until a round ends. A static
+build has nowhere to withhold it, so the answers ship in `pool.json`, sealed
+per-track by `chronotune/vault.py`. This is obfuscation, not secrecy, and cannot
+be anything else — the browser must decode every answer, so the key travels with
+the ciphertext. What it buys is that nothing is *readable*: no years or titles
+in plain sight for a player who opens devtools out of curiosity. Defeating it is
+deliberate work, which for a guessing game is the whole bar.
+
+`vault.js` reimplements the keystream in JavaScript, and a test seals in Python,
+unseals in node and asserts the two agree. That cross-language pin is the only
+thing keeping them honest — a sign-extension slip on the JS side would decode
+every track to garbage.
+
+The rules are not restated in JavaScript. The ladder, guess ceiling, epoch and
+proximity bands are read out of `chronotune/game.py` and `chronotune/puzzle.py`
+at build time and baked into `pool.json`, so the browser cannot disagree with
+the server about how the game works.
+
+[live]: https://an21p.github.io/chronotune/
 
 ## Growing the track pool
 
@@ -103,7 +147,9 @@ plan.
 
 ## Known gaps
 
-- The frontend has no automated tests; it was verified by hand.
+- The frontend has no automated tests; it was verified by hand, and both
+  backends were driven through a full round in a real browser.
+- Answers in the static build are obfuscated, not hidden. See above.
 - Spotify stream-count mode is out of scope — no free or licit data source
   exists. Spotify's API exposes only a relative 0–100 popularity score.
 - Client-side enforcement of the snippet limit is not tamper-proof. It is a

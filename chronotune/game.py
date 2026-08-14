@@ -29,15 +29,18 @@ def evaluate_guess(guess: int, answer: int) -> str:
     return "later" if guess < answer else "earlier"
 
 
+# (max inclusive distance, emoji), nearest first. A table rather than an if
+# ladder so the static build can ship the exact same boundaries to the browser
+# instead of restating them in JavaScript and drifting.
+PROXIMITY_BANDS: tuple[tuple[int, str], ...] = ((0, CORRECT), (2, CLOSE), (10, NEAR))
+
+
 def proximity_band(guess: int, answer: int) -> str:
     """Emoji band for the share grid. Boundaries are inclusive."""
     distance = abs(guess - answer)
-    if distance == 0:
-        return CORRECT
-    if distance <= 2:
-        return CLOSE
-    if distance <= 10:
-        return NEAR
+    for limit, band in PROXIMITY_BANDS:
+        if distance <= limit:
+            return band
     return FAR
 
 

@@ -1,5 +1,9 @@
 "use strict";
 
+/* The deck. Knows nothing about where puzzles come from: every call goes to
+ * window.ChronotuneAPI, which is api-server.js under Flask and api-static.js
+ * in the GitHub Pages build. One UI, two backends, no forked copy. */
+
 // Defaults only. Both are replaced by the values the API sends with every
 // round, so the ladder is defined once — in chronotune/game.py.
 let LADDER = [1, 5, 10, 15, 20, 25];
@@ -57,12 +61,7 @@ async function loadAudio(deezerId) {
   audioBuffer = null;
   drawWaveform();
 
-  const response = await fetch(`/api/audio/${deezerId}`);
-  if (!response.ok) {
-    const body = await response.json().catch(() => ({}));
-    throw new Error(body.error || "Audio unavailable — try again.");
-  }
-  const { url } = await response.json();
+  const url = await window.ChronotuneAPI.audioUrl(deezerId);
 
   // The preview MP3 sends access-control-allow-origin: *, so Web Audio can
   // decode it directly — no proxy needed.
@@ -209,25 +208,17 @@ async function startRound(attempt = 0) {
   try {
     let data;
     if (state.mode === "daily") {
-      const response = await fetch("/api/daily");
-      if (!response.ok) throw new Error("Could not load today's puzzle.");
-      data = await response.json();
+      data = await window.ChronotuneAPI.daily();
       state.puzzleNumber = data.puzzle_number;
       $("puzzle-no").textContent = `DAILY ${state.puzzleNumber}`;
     } else {
       $("puzzle-no").textContent = "INFINITE";
-      const response = await fetch("/api/infinite", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ seen: readJSON(SEEN_KEY, []) }),
-      });
-      if (response.status === 409) {
+      data = await window.ChronotuneAPI.infinite(readJSON(SEEN_KEY, []));
+      if (data.exhausted) {
         showError("You have played every track in the pool.");
         $("guess-form").hidden = true;
         return;
       }
-      if (!response.ok) throw new Error("Could not load a track.");
-      data = await response.json();
     }
 
     state.deezerId = data.deezer_id;
@@ -289,24 +280,19 @@ function renderGuess(guess, result, band) {
 async function submitGuess(year) {
   if (state.over || state.deezerId === null) return;
 
-  const response = await fetch("/api/guess", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      deezer_id: state.deezerId,
+  let data;
+  try {
+    data = await window.ChronotuneAPI.guess({
+      deezerId: state.deezerId,
       guess: year,
-      guess_number: state.guesses.length + 1,
-    }),
-  });
-
-  if (!response.ok) {
-    const body = await response.json().catch(() => ({}));
-    showError(body.error || "Something went wrong.");
+      guessNumber: state.guesses.length + 1,
+    });
+  } catch (error) {
+    showError(error.message || "Something went wrong.");
     return;
   }
 
   showError("");
-  const data = await response.json();
   state.guesses.push(year);
   state.bands.push(data.band);
   renderGuess(year, data.result, data.band);
