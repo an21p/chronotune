@@ -4,6 +4,22 @@ A daily music game. A snippet plays; you guess the year the track was released.
 Each wrong guess unlocks more audio and narrows the range. Results share as an
 emoji grid. Infinite mode drops the daily constraint.
 
+**[Play it →](https://an21p.github.io/chronotune/)**
+
+<p align="center">
+  <img src="docs/screenshot.png" alt="The Chronotune deck three guesses into a
+  round: the odometer part-way through a year, the tape stripe with the
+  unlocked seconds inked in amber and the playhead mid-snippet, and the ladder
+  showing each guess with its direction hint." width="466">
+</p>
+
+Six tries. The tape unlocks 1s, 5s, 10s, 15s, 20s, 25s — so an early guess is
+worth more than a late one, and the reading beside it (`LATER ↑` / `EARLIER ↓`)
+narrows the range whether or not the year was close.
+
+The grid gives away the shape of a round and nothing else — no years, so
+posting it cannot spoil the day for anyone:
+
 ```
 CHRONOTUNE #142
 🟥🟧🟩⬜⬜⬜
@@ -141,8 +157,24 @@ surfaces it as a hard error to be resolved deliberately.
 
 ## Design
 
-See `docs/superpowers/specs/2026-08-14-chronotune-design.md` for the full design
-and the research behind it, and `docs/superpowers/plans/` for the implementation
+The interface is a tape deck in dark chrome. Two rules govern it, and extending
+the UI means keeping them:
+
+- **Chrome is structure.** The metallic gradient appears only on edges that
+  would catch light on real hardware — the hairline rule, the active mode key,
+  the Play key. Nowhere else.
+- **Amber is state.** `#F0A93B` marks what is currently live: the playhead, the
+  VU fill, the unlocked seconds, the direction hints. Nothing decorative is
+  amber, which is what makes it readable at a glance.
+
+Barlow Condensed for equipment labelling, Archivo for prose, IBM Plex Mono for
+every number. One column at all sizes, capped at `--deck-width` and centred,
+with the dark field bleeding to the edges.
+
+The approved mockup is `docs/design/tape-deck-dark-reference.html` — the
+implementation follows it rather than re-deriving it. See
+`docs/superpowers/specs/2026-08-14-chronotune-design.md` for the full design and
+the research behind it, and `docs/superpowers/plans/` for the implementation
 plan.
 
 ## Known gaps
