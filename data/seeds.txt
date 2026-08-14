@@ -1,0 +1,17 @@
+# One "Artist - Title" per line. Blank lines and # comments are ignored.
+# Expect roughly 70% to survive the MusicBrainz/Wikidata consensus check.
+Queen - Bohemian Rhapsody
+Michael Jackson - Billie Jean
+Nirvana - Smells Like Teen Spirit
+Fleetwood Mac - Dreams
+Gotye - Somebody That I Used to Know
+Kate Bush - Running Up That Hill
+Outkast - Hey Ya!
+Blur - Song 2
+The Killers - Mr. Brightside
+Amy Winehouse - Rehab
+Daft Punk - Around the World
+Radiohead - Creep
+a-ha - Take On Me
+Rick Astley - Never Gonna Give You Up
+Eminem - Lose Yourself

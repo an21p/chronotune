@@ -1,0 +1,102 @@
+[
+  {
+    "deezer_id": 4091937401,
+    "artist": "Queen",
+    "title": "Bohemian Rhapsody",
+    "year": 1975,
+    "sources": {
+      "musicbrainz": 1975,
+      "wikidata": 1975
+    }
+  },
+  {
+    "deezer_id": 4603408,
+    "artist": "Michael Jackson",
+    "title": "Billie Jean",
+    "year": 1982,
+    "sources": {
+      "musicbrainz": 1982,
+      "wikidata": 1982
+    }
+  },
+  {
+    "deezer_id": 13791930,
+    "artist": "Nirvana",
+    "title": "Smells Like Teen Spirit",
+    "year": 1991,
+    "sources": {
+      "musicbrainz": 1991,
+      "wikidata": 1991
+    }
+  },
+  {
+    "deezer_id": 4063236311,
+    "artist": "Fleetwood Mac",
+    "title": "Dreams",
+    "year": 1977,
+    "sources": {
+      "musicbrainz": 1977,
+      "wikidata": 1977
+    }
+  },
+  {
+    "deezer_id": 14993990,
+    "artist": "Gotye",
+    "title": "Somebody That I Used To Know",
+    "year": 2011,
+    "sources": {
+      "musicbrainz": 2011,
+      "wikidata": 2011
+    }
+  },
+  {
+    "deezer_id": 3102130,
+    "artist": "Blur",
+    "title": "Song 2",
+    "year": 1997,
+    "sources": {
+      "musicbrainz": 1997,
+      "wikidata": 1997
+    }
+  },
+  {
+    "deezer_id": 953097,
+    "artist": "The Killers",
+    "title": "Mr. Brightside",
+    "year": 2003,
+    "sources": {
+      "musicbrainz": 2003,
+      "wikidata": 2003
+    }
+  },
+  {
+    "deezer_id": 2176852,
+    "artist": "Amy Winehouse",
+    "title": "Rehab",
+    "year": 2006,
+    "sources": {
+      "musicbrainz": 2006,
+      "wikidata": 2006
+    }
+  },
+  {
+    "deezer_id": 664107,
+    "artist": "a-ha",
+    "title": "Take on Me",
+    "year": 1984,
+    "sources": {
+      "musicbrainz": 1984,
+      "wikidata": 1984
+    }
+  },
+  {
+    "deezer_id": 628266,
+    "artist": "Outkast",
+    "title": "Hey Ya!",
+    "year": 2003,
+    "sources": {
+      "musicbrainz": 2003,
+      "wikidata": 2003
+    }
+  }
+]

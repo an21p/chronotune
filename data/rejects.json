@@ -1,0 +1,27 @@
+[
+  {
+    "artist": "Kate Bush",
+    "title": "Running Up That Hill",
+    "reason": "no_deezer_match"
+  },
+  {
+    "artist": "Daft Punk",
+    "title": "Around the World",
+    "reason": "year_conflict"
+  },
+  {
+    "artist": "Radiohead",
+    "title": "Creep",
+    "reason": "wd_missing"
+  },
+  {
+    "artist": "Rick Astley",
+    "title": "Never Gonna Give You Up",
+    "reason": "wd_missing"
+  },
+  {
+    "artist": "Eminem",
+    "title": "Lose Yourself",
+    "reason": "wd_missing"
+  }
+]
