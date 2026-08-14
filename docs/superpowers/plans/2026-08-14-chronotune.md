@@ -107,7 +107,27 @@ def test_tools_does_not_import_chronotune():
         source = path.read_text()
         assert "import chronotune" not in source, f"{path} imports chronotune"
         assert "from chronotune" not in source, f"{path} imports chronotune"
+
+
+def test_chronotune_does_not_import_tools_or_call_curation_apis():
+    """The reverse direction of the same boundary.
+
+    The app must never import the builder, and must never reach MusicBrainz or
+    Wikidata — those are build-time concerns. Deezer is exempt: the app calls it
+    at runtime to resolve preview URLs.
+    """
+    from pathlib import Path
+
+    forbidden = ("import tools", "from tools", "musicbrainz", "wikidata")
+    for path in Path("chronotune").rglob("*.py"):
+        source = path.read_text().lower()
+        for needle in forbidden:
+            assert needle not in source, f"{path} references {needle}"
 ```
+
+Both directions are guarded because the Global Constraints state the boundary
+bidirectionally. Each test is a placeholder guard until the directory it scans
+contains real code — Task 2 gives the first one teeth, Task 6 the second.
 
 - [ ] **Step 4: Run the tests**
 
