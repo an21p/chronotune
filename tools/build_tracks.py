@@ -13,8 +13,15 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from dataclasses import dataclass
 from pathlib import Path
+
+# Allow `python tools/build_tracks.py` as well as `python -m tools.build_tracks`.
+# Running a script by path puts tools/ on sys.path rather than the repo root, so
+# the absolute `tools.sources` imports below would fail with ModuleNotFoundError.
+if __package__ in (None, ""):
+    sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from tools.sources import deezer, musicbrainz, wikidata
 
