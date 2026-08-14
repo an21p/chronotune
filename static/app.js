@@ -9,6 +9,8 @@
 let LADDER = [1, 5, 10, 15, 20, 25];
 let MAX_GUESSES = 6;
 const UNUSED = "⬜";
+// Kept in step with PLAY_URL in chronotune/share.py — a test pins the two.
+const PLAY_URL = "https://an21p.github.io/chronotune/";
 const SEEN_KEY = "chronotune.seen";
 const DAILY_KEY = "chronotune.daily";
 
@@ -318,7 +320,7 @@ function buildShareText() {
     : "X/6";
   const header =
     state.mode === "daily" ? `CHRONOTUNE #${state.puzzleNumber}` : "CHRONOTUNE ∞";
-  return `${header}\n${padded.join("")}\n${summary}`;
+  return `${header}\n${padded.join("")}\n${summary}\n${PLAY_URL}`;
 }
 
 function finishRound(data) {

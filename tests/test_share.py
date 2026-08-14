@@ -1,19 +1,22 @@
+import re
+from pathlib import Path
+
 import pytest
 
-from chronotune.share import share_text
+from chronotune.share import PLAY_URL, share_text
 
 
 def test_solved_round_grid_and_summary():
     text = share_text(142, [1980, 1998, 1991], 1991)
 
-    assert text == "CHRONOTUNE #142\n🟥🟧🟩⬜⬜⬜\nSolved in 3 · 🔊🔊🔊"
+    assert text == f"CHRONOTUNE #142\n🟥🟧🟩⬜⬜⬜\nSolved in 3 · 🔊🔊🔊\n{PLAY_URL}"
 
 
 def test_unsolved_round_shows_an_x():
     text = share_text(7, [1960, 1965, 1970, 1975, 1980, 1985], 2020)
 
     assert text.startswith("CHRONOTUNE #7\n")
-    assert text.endswith("X/6")
+    assert text.splitlines()[2] == "X/6"
     assert "⬜" not in text
 
 
@@ -52,9 +55,31 @@ def test_empty_guess_list_renders_an_untouched_grid():
     """Pinned so the Task 12 JavaScript port has a defined behaviour to match."""
     text = share_text(9, [], 1991)
 
-    assert text == "CHRONOTUNE #9\n⬜⬜⬜⬜⬜⬜\nX/6"
+    assert text == f"CHRONOTUNE #9\n⬜⬜⬜⬜⬜⬜\nX/6\n{PLAY_URL}"
 
 
 def test_speaker_count_matches_guesses_used():
     assert "🔊🔊" in share_text(3, [1985, 1991], 1991)
     assert share_text(3, [1991], 1991).count("🔊") == 1
+
+
+class TestPlayUrl:
+    """The link is what makes a pasted result actionable for whoever reads it."""
+
+    def test_is_the_last_line(self) -> None:
+        # Chat clients unfurl the final link, so the grid is read before the
+        # preview card rather than after it.
+        assert share_text(1, [1991], 1991).splitlines()[-1] == PLAY_URL
+
+    def test_appears_on_an_unsolved_round_too(self) -> None:
+        text = share_text(7, [1960, 1965, 1970, 1975, 1980, 1985], 2020)
+        assert text.splitlines()[-1] == PLAY_URL
+
+    def test_matches_the_javascript_copy(self) -> None:
+        """app.js builds its own share text and cannot import this module. If
+        the two URLs drift, half the shared results point somewhere wrong."""
+        app_js = (Path(__file__).resolve().parent.parent / "static/app.js").read_text()
+        match = re.search(r'const PLAY_URL = "([^"]+)"', app_js)
+
+        assert match, "app.js must define PLAY_URL"
+        assert match.group(1) == PLAY_URL

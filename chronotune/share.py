@@ -7,6 +7,11 @@ from __future__ import annotations
 
 from chronotune.game import MAX_GUESSES, UNUSED, proximity_band
 
+# Trailing the grid, so a pasted result is playable by whoever reads it. Last
+# line rather than first: chat clients unfurl the final link, and the grid is
+# what should be read before the preview card.
+PLAY_URL = "https://an21p.github.io/chronotune/"
+
 
 def share_text(puzzle_number: int, guesses: list[int], answer: int) -> str:
     # Clip before padding. With more than MAX_GUESSES guesses the padding
@@ -24,4 +29,4 @@ def share_text(puzzle_number: int, guesses: list[int], answer: int) -> str:
     else:
         summary = "X/6"
 
-    return f"CHRONOTUNE #{puzzle_number}\n{grid}\n{summary}"
+    return f"CHRONOTUNE #{puzzle_number}\n{grid}\n{summary}\n{PLAY_URL}"
