@@ -1,1 +1,45 @@
-<!doctype html><title>Chronotune</title><p>placeholder</p>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chronotune</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main id="app">
+    <header>
+      <h1>Chronotune</h1>
+      <p id="subtitle">Guess the year it was released</p>
+      <nav>
+        <button id="mode-daily" class="mode active" type="button">Daily</button>
+        <button id="mode-infinite" class="mode" type="button">Infinite</button>
+      </nav>
+    </header>
+
+    <section id="player">
+      <canvas id="waveform" width="600" height="80"></canvas>
+      <button id="play" type="button">Play <span id="snippet-length">1</span>s</button>
+    </section>
+
+    <section id="guesses"></section>
+
+    <form id="guess-form">
+      <input id="guess-input" type="number" inputmode="numeric"
+             min="1900" max="2100" placeholder="Year" required>
+      <button type="submit">Guess</button>
+      <button type="button" id="skip">Skip</button>
+    </form>
+
+    <section id="result" hidden>
+      <p id="reveal"></p>
+      <pre id="share-grid"></pre>
+      <button id="share" type="button">Copy result</button>
+      <button id="next" type="button" hidden>Next track</button>
+    </section>
+
+    <p id="error" role="alert" hidden></p>
+  </main>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

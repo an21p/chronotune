@@ -1,0 +1,54 @@
+:root { color-scheme: light dark; --gap: 1rem; }
+
+body {
+  font-family: system-ui, sans-serif;
+  margin: 0;
+  padding: var(--gap);
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+}
+
+#app { width: min(600px, 100%); display: grid; gap: var(--gap); }
+
+header { text-align: center; }
+h1 { margin: 0; letter-spacing: -0.02em; }
+#subtitle { margin: 0.25rem 0 var(--gap); opacity: 0.7; }
+nav { display: flex; gap: 0.5rem; justify-content: center; }
+
+button {
+  padding: 0.6rem 1rem;
+  border: 1px solid currentColor;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+button.active { background: currentColor; color: canvas; }
+button:disabled { opacity: 0.4; cursor: default; }
+
+#player { display: grid; gap: 0.5rem; justify-items: center; }
+#waveform { width: 100%; height: 80px; border: 1px solid; border-radius: 6px; }
+
+#guess-form { display: flex; gap: 0.5rem; }
+#guess-input {
+  flex: 1;
+  padding: 0.6rem;
+  font: inherit;
+  border-radius: 6px;
+  border: 1px solid currentColor;
+  background: transparent;
+  color: inherit;
+}
+
+.guess-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.4rem 0.6rem;
+  border-bottom: 1px solid currentColor;
+}
+
+#result { display: grid; gap: 0.5rem; justify-items: start; }
+#share-grid { font-size: 1.2rem; line-height: 1.4; margin: 0; }
+#error { color: #c0392b; font-weight: 600; }
