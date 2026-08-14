@@ -192,3 +192,40 @@ def test_main_heals_a_track_recorded_without_its_order_entry(tmp_path):
     order = _run(tmp_path, "", {})
 
     assert order == [7], "an orphaned track must be given a day on the next run"
+
+
+def test_main_runs_the_guard_before_every_daily_order_write(tmp_path, monkeypatch):
+    """Pin that the guard is invoked, and invoked before the write.
+
+    assert_append_only cannot fire in correct code — order is only ever
+    appended to — so its value is as a tripwire for future changes. That makes
+    it worth pinning that it actually runs, and runs before the write it
+    protects. Deleting the call, or moving it after the write, must fail here.
+    """
+    import tools.build_tracks as bt
+
+    events = []
+    real_assert = bt.assert_append_only
+    real_write = bt._write_json
+
+    def spy_assert(existing, updated):
+        events.append("guard")
+        return real_assert(existing, updated)
+
+    def spy_write(path, payload):
+        if path.name == "daily_order.json":
+            events.append("write")
+        return real_write(path, payload)
+
+    monkeypatch.setattr(bt, "assert_append_only", spy_assert)
+    monkeypatch.setattr(bt, "_write_json", spy_write)
+
+    mapping = {("Queen", "Bohemian Rhapsody"): _accepted(1, "Queen", "Bohemian Rhapsody", 1975)}
+    _run(tmp_path, "Queen - Bohemian Rhapsody\n", mapping)
+
+    assert "write" in events, "no daily_order write occurred, so nothing was proven"
+    assert "guard" in events, "assert_append_only was never called"
+    assert events.index("guard") < events.index("write"), \
+        "daily_order was written before the append-only guard ran"
+    assert events.count("guard") >= events.count("write"), \
+        "some daily_order write was not preceded by its own guard"
