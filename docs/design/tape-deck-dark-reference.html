@@ -1,0 +1,173 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+
+<h2>Tape Deck, dark chrome</h2>
+<p class="subtitle">Near-black housing, machined chrome edges, one amber indicator for anything live. Desktop is the same column as mobile, capped and centred — the deck never stretches. Confirm the palette and I'll build it.</p>
+
+<style>
+.tdk { --void:#0B0C0E; --deck:#15171B; --deck-hi:#1E2126; --chrome:#C9CFD6; --chrome-dk:#6E767F;
+  --ivory:#EDE6D4; --amber:#F0A93B; --oxide:#7A5230; --dim:#7E858E;
+  font-family:"Archivo",system-ui,sans-serif; color:var(--chrome); }
+.tdk * { box-sizing:border-box; }
+
+.tdk-stage { background:var(--void); padding:26px 18px; border-radius:6px;
+  background-image:radial-gradient(120% 80% at 50% 0%, #16181D 0%, #0B0C0E 68%); }
+.tdk-cols { display:flex; gap:26px; align-items:flex-start; justify-content:center; flex-wrap:wrap; }
+
+/* the deck */
+.deck { width:100%; max-width:430px; }
+.deck.narrow { max-width:230px; }
+
+.wordmark { font-family:"Barlow Condensed",sans-serif; font-weight:700; font-size:19px;
+  letter-spacing:.42em; text-transform:uppercase; color:var(--chrome);
+  display:flex; justify-content:space-between; align-items:baseline; }
+.wordmark .no { font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em; color:var(--dim); }
+
+.rule { height:1px; margin:9px 0 14px;
+  background:linear-gradient(90deg,transparent,var(--chrome-dk) 12%,#EDF1F5 50%,var(--chrome-dk) 88%,transparent); opacity:.55; }
+
+.panel { background:linear-gradient(180deg,var(--deck-hi),var(--deck)); border-radius:5px; padding:15px 14px 13px;
+  box-shadow:0 1px 0 rgba(237,241,245,.14) inset, 0 -1px 0 rgba(0,0,0,.6) inset, 0 8px 20px rgba(0,0,0,.5); }
+
+/* mode toggle */
+.modes { display:flex; gap:6px; margin-bottom:14px; }
+.mode { flex:1; font-family:"Barlow Condensed",sans-serif; font-weight:600; font-size:12px; letter-spacing:.2em;
+  text-transform:uppercase; padding:6px 0; text-align:center; color:var(--dim);
+  background:#101216; border:1px solid #262A30; border-radius:3px; }
+.mode.on { color:#0B0C0E; background:linear-gradient(180deg,#EDF1F5,#A8B0B9 52%,#8A929B); border-color:#EDF1F5;
+  text-shadow:0 1px 0 rgba(255,255,255,.4); }
+
+/* odometer */
+.odo { display:flex; gap:5px; justify-content:center; margin:4px 0 14px; }
+.digit { position:relative; width:52px; height:66px; border-radius:3px; overflow:hidden;
+  background:linear-gradient(180deg,#F6F1E2 0%,#E3DAC3 48%,#CFC5AC 52%,#EFE8D6 100%);
+  color:#17181A; font-family:"IBM Plex Mono",monospace; font-weight:600; font-size:38px;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:inset 0 6px 10px rgba(0,0,0,.28), inset 0 -6px 10px rgba(0,0,0,.22), 0 0 0 1px #3A3F45; }
+.digit::after { content:""; position:absolute; left:0; right:0; top:50%; height:1px; background:rgba(0,0,0,.32); }
+.digit.empty { background:linear-gradient(180deg,#1A1C20,#101215); color:#3E444B; box-shadow:inset 0 4px 8px rgba(0,0,0,.7), 0 0 0 1px #2A2E34; }
+.narrow .digit { width:38px; height:50px; font-size:28px; }
+
+/* tape window */
+.tape { position:relative; height:44px; border-radius:3px; background:#0C0E11;
+  box-shadow:inset 0 0 0 1px #2A2E34, inset 0 4px 10px rgba(0,0,0,.8); overflow:hidden; }
+.tape .oxide { position:absolute; inset:0; width:46%;
+  background:repeating-linear-gradient(90deg, var(--oxide) 0 1px, rgba(240,169,59,.55) 1px 2px, transparent 2px 4px); }
+.tape .sealed { position:absolute; inset:0 0 0 46%;
+  background:repeating-linear-gradient(90deg,#2A2E34 0 1px, transparent 1px 4px); opacity:.5; }
+.tape .head { position:absolute; top:0; bottom:0; left:46%; width:2px; background:var(--amber); box-shadow:0 0 9px rgba(240,169,59,.75); }
+
+/* transport row */
+.transport { display:flex; align-items:center; gap:10px; margin-top:12px; }
+.play { font-family:"Barlow Condensed",sans-serif; font-weight:700; font-size:13px; letter-spacing:.22em;
+  text-transform:uppercase; color:#0B0C0E; padding:8px 16px; border-radius:3px; border:1px solid #EDF1F5;
+  background:linear-gradient(180deg,#EDF1F5,#A8B0B9 52%,#868E97); text-shadow:0 1px 0 rgba(255,255,255,.35); }
+.vu { flex:1; height:7px; border-radius:4px; background:#0C0E11; box-shadow:inset 0 0 0 1px #2A2E34; overflow:hidden; }
+.vu i { display:block; height:100%; width:46%; background:linear-gradient(90deg,#8A5C15,var(--amber)); box-shadow:0 0 10px rgba(240,169,59,.6); }
+.secs { font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--amber); letter-spacing:.06em; }
+
+/* ladder */
+.ladder { margin-top:16px; }
+.ladder-h { font-family:"Barlow Condensed",sans-serif; font-size:11px; letter-spacing:.3em; text-transform:uppercase;
+  color:var(--dim); display:flex; justify-content:space-between; padding-bottom:6px; border-bottom:1px solid #262A30; }
+.ladder .row { display:flex; justify-content:space-between; align-items:center; padding:9px 2px;
+  border-bottom:1px solid #1D2126; font-family:"IBM Plex Mono",monospace; font-size:13px; color:var(--chrome); }
+.ladder .row .band { margin-right:9px; }
+.ladder .row .dir { font-family:"Barlow Condensed",sans-serif; font-size:12px; letter-spacing:.2em;
+  text-transform:uppercase; color:var(--amber); }
+.ladder .row.blank { color:#3E444B; }
+.ladder .row.blank .dir { color:#3E444B; }
+
+/* entry */
+.entry { display:flex; gap:7px; margin-top:14px; }
+.field { flex:1; background:#0C0E11; border:1px solid #2A2E34; border-radius:3px; padding:9px 11px;
+  font-family:"IBM Plex Mono",monospace; font-size:14px; color:var(--ivory); }
+.field .cursor { color:var(--amber); }
+.btn-ghost { font-family:"Barlow Condensed",sans-serif; font-weight:600; font-size:12px; letter-spacing:.2em;
+  text-transform:uppercase; color:var(--chrome); background:#101216; border:1px solid #3A4047; border-radius:3px; padding:9px 13px; }
+
+.cap { font-family:"Barlow Condensed",sans-serif; font-size:11px; letter-spacing:.3em; text-transform:uppercase;
+  color:var(--dim); text-align:center; margin:12px 0 0; }
+
+/* palette chips */
+.chips { display:flex; gap:8px; flex-wrap:wrap; margin-top:20px; justify-content:center; }
+.chip { width:86px; }
+.chip .sw { height:34px; border-radius:3px; box-shadow:inset 0 0 0 1px rgba(237,241,245,.18); }
+.chip .nm { font-family:"Barlow Condensed",sans-serif; font-size:10px; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--dim); margin-top:5px; text-align:center; }
+.chip .hx { font-family:"IBM Plex Mono",monospace; font-size:9px; color:#4E545C; text-align:center; }
+</style>
+
+<div class="tdk">
+  <div class="tdk-stage">
+    <div class="tdk-cols">
+
+      <div>
+        <div class="deck">
+          <div class="wordmark"><span>Chronotune</span><span class="no">DAILY 142</span></div>
+          <div class="rule"></div>
+          <div class="panel">
+            <div class="modes"><div class="mode on">Daily</div><div class="mode">Infinite</div></div>
+            <div class="odo">
+              <div class="digit">1</div><div class="digit">9</div><div class="digit empty">–</div><div class="digit empty">–</div>
+            </div>
+            <div class="tape"><div class="oxide"></div><div class="sealed"></div><div class="head"></div></div>
+            <div class="transport">
+              <span class="play">Play 4s</span>
+              <div class="vu"><i></i></div>
+              <span class="secs">04.0</span>
+            </div>
+            <div class="ladder">
+              <div class="ladder-h"><span>Guess</span><span>Reading</span></div>
+              <div class="row"><span><span class="band">🟥</span>1978</span><span class="dir">Later ↑</span></div>
+              <div class="row"><span><span class="band">🟧</span>1994</span><span class="dir">Earlier ↓</span></div>
+              <div class="row blank"><span><span class="band">⬜</span>––––</span><span class="dir">4 left</span></div>
+            </div>
+            <div class="entry">
+              <div class="field">19<span class="cursor">▏</span></div>
+              <span class="btn-ghost">Guess</span>
+              <span class="btn-ghost">Skip</span>
+            </div>
+          </div>
+        </div>
+        <p class="cap">Desktop — capped and centred</p>
+      </div>
+
+      <div>
+        <div class="deck narrow">
+          <div class="wordmark" style="font-size:15px;letter-spacing:.3em"><span>Chronotune</span></div>
+          <div class="rule"></div>
+          <div class="panel" style="padding:12px 10px">
+            <div class="modes"><div class="mode on">Daily</div><div class="mode">Inf</div></div>
+            <div class="odo">
+              <div class="digit">1</div><div class="digit">9</div><div class="digit empty">–</div><div class="digit empty">–</div>
+            </div>
+            <div class="tape" style="height:34px"><div class="oxide"></div><div class="sealed"></div><div class="head"></div></div>
+            <div class="transport">
+              <span class="play" style="padding:7px 10px;font-size:11px">Play</span>
+              <div class="vu"><i></i></div>
+            </div>
+            <div class="ladder">
+              <div class="row" style="font-size:12px"><span><span class="band">🟥</span>1978</span><span class="dir">↑</span></div>
+              <div class="row" style="font-size:12px"><span><span class="band">🟧</span>1994</span><span class="dir">↓</span></div>
+            </div>
+            <div class="entry">
+              <div class="field" style="font-size:13px">19<span class="cursor">▏</span></div>
+              <span class="btn-ghost" style="padding:9px 10px">Go</span>
+            </div>
+          </div>
+        </div>
+        <p class="cap">Mobile — same column</p>
+      </div>
+
+    </div>
+
+    <div class="chips">
+      <div class="chip"><div class="sw" style="background:#0B0C0E"></div><div class="nm">Void</div><div class="hx">#0B0C0E</div></div>
+      <div class="chip"><div class="sw" style="background:linear-gradient(180deg,#1E2126,#15171B)"></div><div class="nm">Deck</div><div class="hx">#15171B</div></div>
+      <div class="chip"><div class="sw" style="background:linear-gradient(180deg,#EDF1F5,#A8B0B9 52%,#6E767F)"></div><div class="nm">Chrome</div><div class="hx">#C9CFD6</div></div>
+      <div class="chip"><div class="sw" style="background:linear-gradient(180deg,#F6F1E2,#CFC5AC)"></div><div class="nm">Ivory</div><div class="hx">#EDE6D4</div></div>
+      <div class="chip"><div class="sw" style="background:#F0A93B"></div><div class="nm">Amber</div><div class="hx">#F0A93B</div></div>
+      <div class="chip"><div class="sw" style="background:#7A5230"></div><div class="nm">Oxide</div><div class="hx">#7A5230</div></div>
+    </div>
+  </div>
+</div>

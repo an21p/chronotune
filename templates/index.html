@@ -3,42 +3,78 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0B0C0E">
   <title>Chronotune</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-  <main id="app">
+  <main id="app" class="deck">
     <header>
-      <h1>Chronotune</h1>
-      <p id="subtitle">Guess the year it was released</p>
-      <nav>
-        <button id="mode-daily" class="mode active" type="button">Daily</button>
-        <button id="mode-infinite" class="mode" type="button">Infinite</button>
-      </nav>
+      <div class="wordmark">
+        <h1>Chronotune</h1>
+        <span id="puzzle-no" class="no">DAILY</span>
+      </div>
+      <div class="rule"></div>
     </header>
 
-    <section id="player">
-      <canvas id="waveform" width="600" height="80"></canvas>
-      <button id="play" type="button">Play <span id="snippet-length">1</span>s</button>
-    </section>
+    <div class="panel">
+      <nav class="modes">
+        <button id="mode-daily" class="mode on" type="button">Daily</button>
+        <button id="mode-infinite" class="mode" type="button">Infinite</button>
+      </nav>
 
-    <section id="guesses"></section>
+      <!-- Large readout of the year being typed. The real control is #guess-input
+           below; these wells only mirror it, so they stay out of the a11y tree. -->
+      <div id="odo" class="odo" aria-hidden="true">
+        <span class="digit empty">&ndash;</span>
+        <span class="digit empty">&ndash;</span>
+        <span class="digit empty">&ndash;</span>
+        <span class="digit empty">&ndash;</span>
+      </div>
 
-    <form id="guess-form">
-      <input id="guess-input" type="number" inputmode="numeric"
-             min="1900" max="2100" placeholder="Year" required>
-      <button type="submit">Guess</button>
-      <button type="button" id="skip">Skip</button>
-    </form>
+      <section id="player">
+        <div class="tape">
+          <canvas id="waveform" width="600" height="88"></canvas>
+        </div>
+        <div class="transport">
+          <button id="play" class="play" type="button">Play <span id="snippet-length">1</span>s</button>
+          <div class="vu"><i id="vu-fill"></i></div>
+          <span id="secs" class="secs">01.0</span>
+        </div>
+      </section>
 
-    <section id="result" hidden>
-      <p id="reveal"></p>
-      <pre id="share-grid"></pre>
-      <button id="share" type="button">Copy result</button>
-      <button id="next" type="button" hidden>Next track</button>
-    </section>
+      <section class="ladder">
+        <div class="ladder-h"><span>Guess</span><span>Reading</span></div>
+        <div id="guesses"></div>
+        <div id="remaining" class="row blank">
+          <span><span class="band">&#11036;</span>&ndash;&ndash;&ndash;&ndash;</span>
+          <span class="dir">6 left</span>
+        </div>
+      </section>
 
-    <p id="error" role="alert" hidden></p>
+      <form id="guess-form" class="entry">
+        <label class="sr-only" for="guess-input">Year of release</label>
+        <input id="guess-input" class="field" type="number" inputmode="numeric"
+               min="1900" max="2100" placeholder="Year" autocomplete="off" required>
+        <button class="btn-ghost" type="submit">Guess</button>
+        <button class="btn-ghost" type="button" id="skip">Skip</button>
+      </form>
+
+      <section id="result" hidden>
+        <p id="reveal"></p>
+        <pre id="share-grid"></pre>
+        <div class="entry">
+          <button id="share" class="play" type="button">Copy result</button>
+          <button id="next" class="btn-ghost" type="button" hidden>Next track</button>
+        </div>
+      </section>
+
+      <p id="error" role="alert" hidden></p>
+    </div>
   </main>
   <script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>

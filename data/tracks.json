@@ -98,5 +98,995 @@
       "musicbrainz": 2003,
       "wikidata": 2003
     }
+  },
+  {
+    "deezer_id": 126848613,
+    "artist": "The Beatles",
+    "title": "Hey Jude",
+    "year": 1968,
+    "sources": {
+      "musicbrainz": 1968,
+      "wikidata": 1968
+    }
+  },
+  {
+    "deezer_id": 14176175,
+    "artist": "The Beach Boys",
+    "title": "Good Vibrations",
+    "year": 1966,
+    "sources": {
+      "musicbrainz": 1966,
+      "wikidata": 1966
+    }
+  },
+  {
+    "deezer_id": 14477354,
+    "artist": "Bob Dylan",
+    "title": "Like a Rolling Stone",
+    "year": 1965,
+    "sources": {
+      "musicbrainz": 1965,
+      "wikidata": 1965
+    }
+  },
+  {
+    "deezer_id": 136341550,
+    "artist": "The Who",
+    "title": "My Generation",
+    "year": 1965,
+    "sources": {
+      "musicbrainz": 1965,
+      "wikidata": 1965
+    }
+  },
+  {
+    "deezer_id": 883648,
+    "artist": "Creedence Clearwater Revival",
+    "title": "Fortunate Son",
+    "year": 1969,
+    "sources": {
+      "musicbrainz": 1969,
+      "wikidata": 1969
+    }
+  },
+  {
+    "deezer_id": 709960012,
+    "artist": "Marvin Gaye",
+    "title": "I Heard It Through The Grapevine",
+    "year": 1968,
+    "sources": {
+      "musicbrainz": 1968,
+      "wikidata": 1968
+    }
+  },
+  {
+    "deezer_id": 61292499,
+    "artist": "The Velvet Underground",
+    "title": "Sunday Morning",
+    "year": 1966,
+    "sources": {
+      "musicbrainz": 1966,
+      "wikidata": 1966
+    }
+  },
+  {
+    "deezer_id": 856630,
+    "artist": "Johnny Cash",
+    "title": "Ring of Fire",
+    "year": 1963,
+    "sources": {
+      "musicbrainz": 1963,
+      "wikidata": 1963
+    }
+  },
+  {
+    "deezer_id": 1104538,
+    "artist": "Dusty Springfield",
+    "title": "Son Of A Preacher Man",
+    "year": 1968,
+    "sources": {
+      "musicbrainz": 1968,
+      "wikidata": 1968
+    }
+  },
+  {
+    "deezer_id": 78932931,
+    "artist": "The Supremes",
+    "title": "You Keep Me Hangin' On",
+    "year": 1966,
+    "sources": {
+      "musicbrainz": 1966,
+      "wikidata": 1966
+    }
+  },
+  {
+    "deezer_id": 116914042,
+    "artist": "Pink Floyd",
+    "title": "Wish You Were Here",
+    "year": 1975,
+    "sources": {
+      "musicbrainz": 1975,
+      "wikidata": 1975
+    }
+  },
+  {
+    "deezer_id": 2492098611,
+    "artist": "David Bowie",
+    "title": "Heroes",
+    "year": 1977,
+    "sources": {
+      "musicbrainz": 1977,
+      "wikidata": 1977
+    }
+  },
+  {
+    "deezer_id": 762795222,
+    "artist": "Fleetwood Mac",
+    "title": "Go Your Own Way",
+    "year": 1976,
+    "sources": {
+      "musicbrainz": 1976,
+      "wikidata": 1976
+    }
+  },
+  {
+    "deezer_id": 596034702,
+    "artist": "Stevie Wonder",
+    "title": "Superstition",
+    "year": 1972,
+    "sources": {
+      "musicbrainz": 1972,
+      "wikidata": 1972
+    }
+  },
+  {
+    "deezer_id": 539781,
+    "artist": "The Clash",
+    "title": "London Calling",
+    "year": 1979,
+    "sources": {
+      "musicbrainz": 1979,
+      "wikidata": 1979
+    }
+  },
+  {
+    "deezer_id": 3614383,
+    "artist": "Ramones",
+    "title": "Blitzkrieg Bop",
+    "year": 1976,
+    "sources": {
+      "musicbrainz": 1976,
+      "wikidata": 1976
+    }
+  },
+  {
+    "deezer_id": 418231512,
+    "artist": "Blondie",
+    "title": "Heart Of Glass",
+    "year": 1978,
+    "sources": {
+      "musicbrainz": 1978,
+      "wikidata": 1978
+    }
+  },
+  {
+    "deezer_id": 72060062,
+    "artist": "Chic",
+    "title": "Le Freak",
+    "year": 1978,
+    "sources": {
+      "musicbrainz": 1978,
+      "wikidata": 1978
+    }
+  },
+  {
+    "deezer_id": 2559851322,
+    "artist": "Talking Heads",
+    "title": "Psycho Killer",
+    "year": 1977,
+    "sources": {
+      "musicbrainz": 1977,
+      "wikidata": 1977
+    }
+  },
+  {
+    "deezer_id": 625169,
+    "artist": "Black Sabbath",
+    "title": "Paranoid",
+    "year": 1970,
+    "sources": {
+      "musicbrainz": 1970,
+      "wikidata": 1970
+    }
+  },
+  {
+    "deezer_id": 555639,
+    "artist": "Michael Jackson",
+    "title": "Thriller",
+    "year": 1982,
+    "sources": {
+      "musicbrainz": 1982,
+      "wikidata": 1982
+    }
+  },
+  {
+    "deezer_id": 2806039672,
+    "artist": "Prince",
+    "title": "When Doves Cry",
+    "year": 1984,
+    "sources": {
+      "musicbrainz": 1984,
+      "wikidata": 1984
+    }
+  },
+  {
+    "deezer_id": 664507,
+    "artist": "Madonna",
+    "title": "Like a Prayer",
+    "year": 1989,
+    "sources": {
+      "musicbrainz": 1989,
+      "wikidata": 1989
+    }
+  },
+  {
+    "deezer_id": 3824997371,
+    "artist": "Madonna",
+    "title": "Into the Groove",
+    "year": 1985,
+    "sources": {
+      "musicbrainz": 1985,
+      "wikidata": 1985
+    }
+  },
+  {
+    "deezer_id": 7337280,
+    "artist": "New Order",
+    "title": "Blue Monday",
+    "year": 1983,
+    "sources": {
+      "musicbrainz": 1983,
+      "wikidata": 1983
+    }
+  },
+  {
+    "deezer_id": 797434,
+    "artist": "Joy Division",
+    "title": "Love Will Tear Us Apart",
+    "year": 1980,
+    "sources": {
+      "musicbrainz": 1980,
+      "wikidata": 1980
+    }
+  },
+  {
+    "deezer_id": 68515055,
+    "artist": "Depeche Mode",
+    "title": "Enjoy the Silence",
+    "year": 1990,
+    "sources": {
+      "musicbrainz": 1990,
+      "wikidata": 1990
+    }
+  },
+  {
+    "deezer_id": 2559851512,
+    "artist": "Talking Heads",
+    "title": "Once In A Lifetime",
+    "year": 1980,
+    "sources": {
+      "musicbrainz": 1980,
+      "wikidata": 1980
+    }
+  },
+  {
+    "deezer_id": 2234314,
+    "artist": "Tears for Fears",
+    "title": "Everybody Wants To Rule The World",
+    "year": 1985,
+    "sources": {
+      "musicbrainz": 1985,
+      "wikidata": 1985
+    }
+  },
+  {
+    "deezer_id": 4092324041,
+    "artist": "Queen",
+    "title": "Another One Bites The Dust",
+    "year": 1980,
+    "sources": {
+      "musicbrainz": 1980,
+      "wikidata": 1980
+    }
+  },
+  {
+    "deezer_id": 3098519,
+    "artist": "Queen",
+    "title": "Under Pressure",
+    "year": 1981,
+    "sources": {
+      "musicbrainz": 1981,
+      "wikidata": 1981
+    }
+  },
+  {
+    "deezer_id": 2525864,
+    "artist": "The Police",
+    "title": "Every Breath You Take",
+    "year": 1983,
+    "sources": {
+      "musicbrainz": 1983,
+      "wikidata": 1983
+    }
+  },
+  {
+    "deezer_id": 2847464092,
+    "artist": "Duran Duran",
+    "title": "Rio",
+    "year": 1982,
+    "sources": {
+      "musicbrainz": 1982,
+      "wikidata": 1982
+    }
+  },
+  {
+    "deezer_id": 1079668,
+    "artist": "Toto",
+    "title": "Africa",
+    "year": 1982,
+    "sources": {
+      "musicbrainz": 1982,
+      "wikidata": 1982
+    }
+  },
+  {
+    "deezer_id": 2120901,
+    "artist": "Public Enemy",
+    "title": "Fight The Power",
+    "year": 1989,
+    "sources": {
+      "musicbrainz": 1989,
+      "wikidata": 1989
+    }
+  },
+  {
+    "deezer_id": 424565232,
+    "artist": "Metallica",
+    "title": "Master Of Puppets",
+    "year": 1986,
+    "sources": {
+      "musicbrainz": 1986,
+      "wikidata": 1986
+    }
+  },
+  {
+    "deezer_id": 106344460,
+    "artist": "Dexys Midnight Runners",
+    "title": "Come On Eileen",
+    "year": 1982,
+    "sources": {
+      "musicbrainz": 1982,
+      "wikidata": 1982
+    }
+  },
+  {
+    "deezer_id": 1173622,
+    "artist": "Soft Cell",
+    "title": "Tainted Love",
+    "year": 1981,
+    "sources": {
+      "musicbrainz": 1981,
+      "wikidata": 1981
+    }
+  },
+  {
+    "deezer_id": 479307582,
+    "artist": "Frankie Goes to Hollywood",
+    "title": "Relax",
+    "year": 1983,
+    "sources": {
+      "musicbrainz": 1983,
+      "wikidata": 1983
+    }
+  },
+  {
+    "deezer_id": 3122969,
+    "artist": "Pet Shop Boys",
+    "title": "West End Girls",
+    "year": 1984,
+    "sources": {
+      "musicbrainz": 1984,
+      "wikidata": 1984
+    }
+  },
+  {
+    "deezer_id": 13791932,
+    "artist": "Nirvana",
+    "title": "Come As You Are",
+    "year": 1992,
+    "sources": {
+      "musicbrainz": 1992,
+      "wikidata": 1992
+    }
+  },
+  {
+    "deezer_id": 70466227,
+    "artist": "Nirvana",
+    "title": "Heart-Shaped Box",
+    "year": 1993,
+    "sources": {
+      "musicbrainz": 1993,
+      "wikidata": 1993
+    }
+  },
+  {
+    "deezer_id": 985745702,
+    "artist": "Oasis",
+    "title": "Wonderwall",
+    "year": 1995,
+    "sources": {
+      "musicbrainz": 1995,
+      "wikidata": 1995
+    }
+  },
+  {
+    "deezer_id": 3129748,
+    "artist": "Massive Attack",
+    "title": "Teardrop",
+    "year": 1998,
+    "sources": {
+      "musicbrainz": 1998,
+      "wikidata": 1998
+    }
+  },
+  {
+    "deezer_id": 3129772,
+    "artist": "Daft Punk",
+    "title": "Da Funk",
+    "year": 1995,
+    "sources": {
+      "musicbrainz": 1995,
+      "wikidata": 1995
+    }
+  },
+  {
+    "deezer_id": 3370971091,
+    "artist": "Underworld",
+    "title": "Born slippy",
+    "year": 1995,
+    "sources": {
+      "musicbrainz": 1995,
+      "wikidata": 1995
+    }
+  },
+  {
+    "deezer_id": 3119536,
+    "artist": "Beastie Boys",
+    "title": "Sabotage",
+    "year": 1994,
+    "sources": {
+      "musicbrainz": 1994,
+      "wikidata": 1994
+    }
+  },
+  {
+    "deezer_id": 62082829,
+    "artist": "Rage Against the Machine",
+    "title": "Killing In The Name",
+    "year": 1992,
+    "sources": {
+      "musicbrainz": 1992,
+      "wikidata": 1992
+    }
+  },
+  {
+    "deezer_id": 7675130,
+    "artist": "Pearl Jam",
+    "title": "Alive",
+    "year": 1991,
+    "sources": {
+      "musicbrainz": 1991,
+      "wikidata": 1991
+    }
+  },
+  {
+    "deezer_id": 78631539,
+    "artist": "Soundgarden",
+    "title": "Black Hole Sun",
+    "year": 1994,
+    "sources": {
+      "musicbrainz": 1994,
+      "wikidata": 1994
+    }
+  },
+  {
+    "deezer_id": 1043894,
+    "artist": "TLC",
+    "title": "Waterfalls",
+    "year": 1995,
+    "sources": {
+      "musicbrainz": 1995,
+      "wikidata": 1995
+    }
+  },
+  {
+    "deezer_id": 45523681,
+    "artist": "Spice Girls",
+    "title": "Wannabe",
+    "year": 1996,
+    "sources": {
+      "musicbrainz": 1996,
+      "wikidata": 1996
+    }
+  },
+  {
+    "deezer_id": 13141170,
+    "artist": "Backstreet Boys",
+    "title": "I Want It That Way",
+    "year": 1999,
+    "sources": {
+      "musicbrainz": 1999,
+      "wikidata": 1999
+    }
+  },
+  {
+    "deezer_id": 789273,
+    "artist": "Alanis Morissette",
+    "title": "You Oughta Know",
+    "year": 1995,
+    "sources": {
+      "musicbrainz": 1995,
+      "wikidata": 1995
+    }
+  },
+  {
+    "deezer_id": 1173960,
+    "artist": "Nine Inch Nails",
+    "title": "Closer",
+    "year": 1994,
+    "sources": {
+      "musicbrainz": 1994,
+      "wikidata": 1994
+    }
+  },
+  {
+    "deezer_id": 958109,
+    "artist": "The Strokes",
+    "title": "Last Nite",
+    "year": 2001,
+    "sources": {
+      "musicbrainz": 2001,
+      "wikidata": 2001
+    }
+  },
+  {
+    "deezer_id": 1153182282,
+    "artist": "The White Stripes",
+    "title": "Seven Nation Army",
+    "year": 2003,
+    "sources": {
+      "musicbrainz": 2003,
+      "wikidata": 2003
+    }
+  },
+  {
+    "deezer_id": 4315684,
+    "artist": "Franz Ferdinand",
+    "title": "Take Me Out",
+    "year": 2004,
+    "sources": {
+      "musicbrainz": 2004,
+      "wikidata": 2004
+    }
+  },
+  {
+    "deezer_id": 26608061,
+    "artist": "Kaiser Chiefs",
+    "title": "I Predict A Riot",
+    "year": 2004,
+    "sources": {
+      "musicbrainz": 2004,
+      "wikidata": 2004
+    }
+  },
+  {
+    "deezer_id": 3128096,
+    "artist": "Coldplay",
+    "title": "Yellow",
+    "year": 2000,
+    "sources": {
+      "musicbrainz": 2000,
+      "wikidata": 2000
+    }
+  },
+  {
+    "deezer_id": 3098841,
+    "artist": "Coldplay",
+    "title": "Clocks",
+    "year": 2002,
+    "sources": {
+      "musicbrainz": 2002,
+      "wikidata": 2002
+    }
+  },
+  {
+    "deezer_id": 671140,
+    "artist": "Missy Elliott",
+    "title": "Get Ur Freak On",
+    "year": 2001,
+    "sources": {
+      "musicbrainz": 2001,
+      "wikidata": 2001
+    }
+  },
+  {
+    "deezer_id": 1151141,
+    "artist": "Nelly Furtado",
+    "title": "Maneater",
+    "year": 2006,
+    "sources": {
+      "musicbrainz": 2006,
+      "wikidata": 2006
+    }
+  },
+  {
+    "deezer_id": 2794160,
+    "artist": "Gnarls Barkley",
+    "title": "Crazy",
+    "year": 2006,
+    "sources": {
+      "musicbrainz": 2006,
+      "wikidata": 2006
+    }
+  },
+  {
+    "deezer_id": 2947342,
+    "artist": "The Killers",
+    "title": "Somebody Told Me",
+    "year": 2004,
+    "sources": {
+      "musicbrainz": 2004,
+      "wikidata": 2004
+    }
+  },
+  {
+    "deezer_id": 3153429,
+    "artist": "Sigur Rós",
+    "title": "Hoppípolla",
+    "year": 2005,
+    "sources": {
+      "musicbrainz": 2005,
+      "wikidata": 2005
+    }
+  },
+  {
+    "deezer_id": 1137208172,
+    "artist": "The Shins",
+    "title": "New Slang",
+    "year": 2001,
+    "sources": {
+      "musicbrainz": 2001,
+      "wikidata": 2001
+    }
+  },
+  {
+    "deezer_id": 4162671,
+    "artist": "Death Cab for Cutie",
+    "title": "Soul Meets Body",
+    "year": 2005,
+    "sources": {
+      "musicbrainz": 2005,
+      "wikidata": 2005
+    }
+  },
+  {
+    "deezer_id": 15531170,
+    "artist": "Kings of Leon",
+    "title": "Sex on Fire",
+    "year": 2008,
+    "sources": {
+      "musicbrainz": 2008,
+      "wikidata": 2008
+    }
+  },
+  {
+    "deezer_id": 8086126,
+    "artist": "Adele",
+    "title": "Rolling in the Deep",
+    "year": 2010,
+    "sources": {
+      "musicbrainz": 2010,
+      "wikidata": 2010
+    }
+  },
+  {
+    "deezer_id": 8086136,
+    "artist": "Adele",
+    "title": "Someone Like You",
+    "year": 2011,
+    "sources": {
+      "musicbrainz": 2011,
+      "wikidata": 2011
+    }
+  },
+  {
+    "deezer_id": 111780376,
+    "artist": "Sam Smith",
+    "title": "Stay With Me",
+    "year": 2014,
+    "sources": {
+      "musicbrainz": 2014,
+      "wikidata": 2014
+    }
+  },
+  {
+    "deezer_id": 89077555,
+    "artist": "Taylor Swift",
+    "title": "Shake It Off",
+    "year": 2014,
+    "sources": {
+      "musicbrainz": 2014,
+      "wikidata": 2014
+    }
+  },
+  {
+    "deezer_id": 97206068,
+    "artist": "Kendrick Lamar",
+    "title": "Alright",
+    "year": 2015,
+    "sources": {
+      "musicbrainz": 2015,
+      "wikidata": 2015
+    }
+  },
+  {
+    "deezer_id": 350171311,
+    "artist": "Kendrick Lamar",
+    "title": "HUMBLE.",
+    "year": 2017,
+    "sources": {
+      "musicbrainz": 2017,
+      "wikidata": 2017
+    }
+  },
+  {
+    "deezer_id": 435821782,
+    "artist": "Childish Gambino",
+    "title": "Redbone",
+    "year": 2016,
+    "sources": {
+      "musicbrainz": 2016,
+      "wikidata": 2016
+    }
+  },
+  {
+    "deezer_id": 742744952,
+    "artist": "Post Malone",
+    "title": "Circles",
+    "year": 2019,
+    "sources": {
+      "musicbrainz": 2019,
+      "wikidata": 2019
+    }
+  },
+  {
+    "deezer_id": 75526535,
+    "artist": "Disclosure",
+    "title": "Latch",
+    "year": 2012,
+    "sources": {
+      "musicbrainz": 2012,
+      "wikidata": 2012
+    }
+  },
+  {
+    "deezer_id": 63034985,
+    "artist": "Bastille",
+    "title": "Pompeii",
+    "year": 2013,
+    "sources": {
+      "musicbrainz": 2013,
+      "wikidata": 2013
+    }
+  },
+  {
+    "deezer_id": 84791735,
+    "artist": "Hozier",
+    "title": "Take Me To Church",
+    "year": 2013,
+    "sources": {
+      "musicbrainz": 2013,
+      "wikidata": 2013
+    }
+  },
+  {
+    "deezer_id": 83841464,
+    "artist": "Vance Joy",
+    "title": "Riptide",
+    "year": 2013,
+    "sources": {
+      "musicbrainz": 2013,
+      "wikidata": 2013
+    }
+  },
+  {
+    "deezer_id": 15546830,
+    "artist": "Foster the People",
+    "title": "Pumped Up Kicks",
+    "year": 2010,
+    "sources": {
+      "musicbrainz": 2010,
+      "wikidata": 2010
+    }
+  },
+  {
+    "deezer_id": 14993991,
+    "artist": "Gotye",
+    "title": "Eyes Wide Open",
+    "year": 2010,
+    "sources": {
+      "musicbrainz": 2010,
+      "wikidata": 2010
+    }
+  },
+  {
+    "deezer_id": 70322130,
+    "artist": "Arctic Monkeys",
+    "title": "Do I Wanna Know?",
+    "year": 2013,
+    "sources": {
+      "musicbrainz": 2013,
+      "wikidata": 2013
+    }
+  },
+  {
+    "deezer_id": 82917990,
+    "artist": "Royal Blood",
+    "title": "Figure It Out",
+    "year": 2014,
+    "sources": {
+      "musicbrainz": 2014,
+      "wikidata": 2014
+    }
+  },
+  {
+    "deezer_id": 1040154662,
+    "artist": "Glass Animals",
+    "title": "Heat Waves",
+    "year": 2020,
+    "sources": {
+      "musicbrainz": 2020,
+      "wikidata": 2020
+    }
+  },
+  {
+    "deezer_id": 370426041,
+    "artist": "SZA",
+    "title": "The Weekend",
+    "year": 2017,
+    "sources": {
+      "musicbrainz": 2017,
+      "wikidata": 2017
+    }
+  },
+  {
+    "deezer_id": 118584992,
+    "artist": "Leon Bridges",
+    "title": "Coming Home",
+    "year": 2015,
+    "sources": {
+      "musicbrainz": 2015,
+      "wikidata": 2015
+    }
+  },
+  {
+    "deezer_id": 830336922,
+    "artist": "Harry Styles",
+    "title": "Watermelon Sugar",
+    "year": 2019,
+    "sources": {
+      "musicbrainz": 2019,
+      "wikidata": 2019
+    }
+  },
+  {
+    "deezer_id": 1703487577,
+    "artist": "Harry Styles",
+    "title": "As It Was",
+    "year": 2022,
+    "sources": {
+      "musicbrainz": 2022,
+      "wikidata": 2022
+    }
+  },
+  {
+    "deezer_id": 699056262,
+    "artist": "Lil Nas X",
+    "title": "Old Town Road",
+    "year": 2018,
+    "sources": {
+      "musicbrainz": 2018,
+      "wikidata": 2018
+    }
+  },
+  {
+    "deezer_id": 897666672,
+    "artist": "Megan Thee Stallion",
+    "title": "Savage",
+    "year": 2020,
+    "sources": {
+      "musicbrainz": 2020,
+      "wikidata": 2020
+    }
+  },
+  {
+    "deezer_id": 1425844092,
+    "artist": "The Kid Laroi",
+    "title": "STAY",
+    "year": 2021,
+    "sources": {
+      "musicbrainz": 2021,
+      "wikidata": 2021
+    }
+  },
+  {
+    "deezer_id": 1805106587,
+    "artist": "Steve Lacy",
+    "title": "Bad Habit",
+    "year": 2022,
+    "sources": {
+      "musicbrainz": 2022,
+      "wikidata": 2022
+    }
+  },
+  {
+    "deezer_id": 508124132,
+    "artist": "IDLES",
+    "title": "Danny Nedelko",
+    "year": 2018,
+    "sources": {
+      "musicbrainz": 2018,
+      "wikidata": 2018
+    }
+  },
+  {
+    "deezer_id": 1365093402,
+    "artist": "black midi",
+    "title": "John L",
+    "year": 2021,
+    "sources": {
+      "musicbrainz": 2021,
+      "wikidata": 2021
+    }
+  },
+  {
+    "deezer_id": 918599442,
+    "artist": "Phoebe Bridgers",
+    "title": "Kyoto",
+    "year": 2020,
+    "sources": {
+      "musicbrainz": 2020,
+      "wikidata": 2020
+    }
+  },
+  {
+    "deezer_id": 1257797152,
+    "artist": "Japanese Breakfast",
+    "title": "Be Sweet",
+    "year": 2021,
+    "sources": {
+      "musicbrainz": 2021,
+      "wikidata": 2021
+    }
+  },
+  {
+    "deezer_id": 106380372,
+    "artist": "Beach House",
+    "title": "Space Song",
+    "year": 2015,
+    "sources": {
+      "musicbrainz": 2015,
+      "wikidata": 2015
+    }
   }
 ]

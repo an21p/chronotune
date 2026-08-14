@@ -1,54 +1,376 @@
-:root { color-scheme: light dark; --gap: 1rem; }
+/* Chronotune — "tape deck, dark chrome".
+   Reference mockup: docs/design/tape-deck-dark-reference.html
+
+   Two rules keep this honest:
+   chrome is structure (edges that would catch light on real hardware), amber is
+   state (anything currently live). Nothing decorative is amber. */
+
+:root {
+  --void: #0B0C0E;
+  --deck: #15171B;
+  --deck-hi: #1E2126;
+  --chrome: #C9CFD6;
+  --chrome-lt: #EDF1F5;
+  --chrome-dk: #6E767F;
+  --ivory: #EDE6D4;
+  --amber: #F0A93B;
+  --oxide: #7A5230;
+  --dim: #7E858E;
+  --hairline: #262A30;
+  --hairline-dk: #1D2126;
+  --well: #0C0E11;
+  --danger: #E4574B;
+
+  --deck-width: 430px;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+/* .entry and .row set display, which would otherwise beat the UA rule for
+   [hidden] and leave the form on screen after the round ends. */
+[hidden] { display: none !important; }
 
 body {
-  font-family: system-ui, sans-serif;
   margin: 0;
-  padding: var(--gap);
-  display: grid;
-  place-items: center;
+  padding: clamp(1rem, 4vw, 2.5rem) 1rem;
   min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background: var(--void);
+  background-image: radial-gradient(120% 80% at 50% 0%, #16181D 0%, #0B0C0E 68%);
+  background-attachment: fixed;
+  font-family: "Archivo", system-ui, sans-serif;
+  color: var(--chrome);
+  -webkit-font-smoothing: antialiased;
 }
 
-#app { width: min(600px, 100%); display: grid; gap: var(--gap); }
+/* The deck never stretches — a wider screen gets more black around it.
+   min-width:0 is load-bearing: as a flex item the deck's automatic minimum
+   size would otherwise be the canvas's intrinsic 600px and it would overflow
+   narrow phones. */
+.deck { width: 100%; max-width: var(--deck-width); min-width: 0; }
 
-header { text-align: center; }
-h1 { margin: 0; letter-spacing: -0.02em; }
-#subtitle { margin: 0.25rem 0 var(--gap); opacity: 0.7; }
-nav { display: flex; gap: 0.5rem; justify-content: center; }
-
-button {
-  padding: 0.6rem 1rem;
-  border: 1px solid currentColor;
-  border-radius: 6px;
-  background: transparent;
-  color: inherit;
-  font: inherit;
-  cursor: pointer;
-}
-button.active { background: currentColor; color: canvas; }
-button:disabled { opacity: 0.4; cursor: default; }
-
-#player { display: grid; gap: 0.5rem; justify-items: center; }
-#waveform { width: 100%; height: 80px; border: 1px solid; border-radius: 6px; }
-
-#guess-form { display: flex; gap: 0.5rem; }
-#guess-input {
-  flex: 1;
-  padding: 0.6rem;
-  font: inherit;
-  border-radius: 6px;
-  border: 1px solid currentColor;
-  background: transparent;
-  color: inherit;
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
 }
 
-.guess-row {
+/* ---------- header ---------- */
+
+.wordmark {
   display: flex;
   justify-content: space-between;
-  padding: 0.4rem 0.6rem;
-  border-bottom: 1px solid currentColor;
+  align-items: baseline;
+  gap: 1rem;
 }
 
-#result { display: grid; gap: 0.5rem; justify-items: start; }
-#share-grid { font-size: 1.2rem; line-height: 1.4; margin: 0; }
-#error { color: #c0392b; font-weight: 600; }
+.wordmark h1 {
+  margin: 0;
+  font-family: "Barlow Condensed", sans-serif;
+  font-weight: 700;
+  font-size: 19px;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: var(--chrome);
+}
+
+.wordmark .no {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--dim);
+  white-space: nowrap;
+}
+
+.rule {
+  height: 1px;
+  margin: 9px 0 14px;
+  opacity: 0.55;
+  background: linear-gradient(90deg, transparent, var(--chrome-dk) 12%, var(--chrome-lt) 50%, var(--chrome-dk) 88%, transparent);
+}
+
+/* ---------- panel ---------- */
+
+.panel {
+  padding: 15px 14px 13px;
+  border-radius: 5px;
+  background: linear-gradient(180deg, var(--deck-hi), var(--deck));
+  box-shadow:
+    inset 0 1px 0 rgba(237, 241, 245, 0.14),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.6),
+    0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* ---------- mode keys ---------- */
+
+.modes { display: flex; gap: 6px; margin-bottom: 14px; }
+
+.mode {
+  flex: 1;
+  padding: 6px 0;
+  font-family: "Barlow Condensed", sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--dim);
+  background: #101216;
+  border: 1px solid var(--hairline);
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.mode.on {
+  color: var(--void);
+  background: linear-gradient(180deg, var(--chrome-lt), #A8B0B9 52%, #8A929B);
+  border-color: var(--chrome-lt);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+/* ---------- odometer ---------- */
+
+.odo { display: flex; gap: 5px; justify-content: center; margin: 4px 0 14px; }
+
+.digit {
+  position: relative;
+  width: 52px;
+  height: 66px;
+  overflow: hidden;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 600;
+  font-size: 38px;
+  color: #17181A;
+  background: linear-gradient(180deg, #F6F1E2 0%, #E3DAC3 48%, #CFC5AC 52%, #EFE8D6 100%);
+  box-shadow:
+    inset 0 6px 10px rgba(0, 0, 0, 0.28),
+    inset 0 -6px 10px rgba(0, 0, 0, 0.22),
+    0 0 0 1px #3A3F45;
+}
+
+/* The seam where the two halves of a counter wheel meet. */
+.digit::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 50%;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.32);
+}
+
+.digit.empty {
+  color: #3E444B;
+  background: linear-gradient(180deg, #1A1C20, #101215);
+  box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.7), 0 0 0 1px #2A2E34;
+}
+
+/* A digit only animates as it lands. */
+.digit.landed { animation: land 180ms ease-out; }
+
+@keyframes land {
+  from { transform: translateY(-38%); filter: brightness(1.5); }
+  to   { transform: none; filter: none; }
+}
+
+/* ---------- tape window ---------- */
+
+#player { display: block; }
+
+.tape {
+  position: relative;
+  height: 44px;
+  overflow: hidden;
+  border-radius: 3px;
+  background: var(--well);
+  box-shadow: inset 0 0 0 1px #2A2E34, inset 0 4px 10px rgba(0, 0, 0, 0.8);
+}
+
+#waveform { display: block; width: 100%; max-width: 100%; height: 100%; }
+
+/* ---------- transport ---------- */
+
+.transport { display: flex; align-items: center; gap: 10px; margin-top: 12px; }
+
+.play {
+  padding: 8px 16px;
+  font-family: "Barlow Condensed", sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--void);
+  background: linear-gradient(180deg, var(--chrome-lt), #A8B0B9 52%, #868E97);
+  border: 1px solid var(--chrome-lt);
+  border-radius: 3px;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+}
+
+.play:active { background: linear-gradient(180deg, #A8B0B9, var(--chrome-lt) 52%, #A8B0B9); }
+
+.vu {
+  flex: 1;
+  height: 7px;
+  overflow: hidden;
+  border-radius: 4px;
+  background: var(--well);
+  box-shadow: inset 0 0 0 1px #2A2E34;
+}
+
+.vu i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, #8A5C15, var(--amber));
+  box-shadow: 0 0 10px rgba(240, 169, 59, 0.6);
+}
+
+.secs {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--amber);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- ladder ---------- */
+
+.ladder { margin-top: 16px; }
+
+.ladder-h {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--hairline);
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+.ladder .row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 2px;
+  border-bottom: 1px solid var(--hairline-dk);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 13px;
+  color: var(--chrome);
+}
+
+.ladder .row .band { margin-right: 9px; }
+
+.ladder .row .dir {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+
+.ladder .row.blank,
+.ladder .row.blank .dir { color: #3E444B; }
+
+.ladder .row.solved .dir { color: var(--chrome-lt); }
+
+/* ---------- entry ---------- */
+
+.entry { display: flex; gap: 7px; margin-top: 14px; }
+
+.field {
+  flex: 1;
+  min-width: 0;
+  padding: 9px 11px;
+  background: var(--well);
+  border: 1px solid #2A2E34;
+  border-radius: 3px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 14px;
+  color: var(--ivory);
+  caret-color: var(--amber);
+}
+
+.field::placeholder { color: #4E545C; }
+
+/* Spinners fight the counter metaphor and the arrow keys still work. */
+.field::-webkit-outer-spin-button,
+.field::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.field { -moz-appearance: textfield; appearance: textfield; }
+
+.btn-ghost {
+  padding: 9px 13px;
+  font-family: "Barlow Condensed", sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--chrome);
+  background: #101216;
+  border: 1px solid #3A4047;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.btn-ghost:hover { border-color: var(--chrome-dk); }
+
+button:disabled { opacity: 0.4; cursor: default; }
+
+/* One focus treatment for every control on the panel. */
+:is(button, input):focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 2px;
+}
+
+/* ---------- result ---------- */
+
+#result { margin-top: 16px; }
+
+#reveal {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ivory);
+}
+
+#share-grid {
+  margin: 12px 0 0;
+  padding: 11px;
+  border-radius: 3px;
+  background: var(--well);
+  box-shadow: inset 0 0 0 1px #2A2E34;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--chrome);
+  white-space: pre-wrap;
+}
+
+#error {
+  margin: 14px 0 0;
+  font-size: 13px;
+  color: var(--danger);
+}
+
+/* ---------- narrow ---------- */
+
+@media (max-width: 430px) {
+  .panel { padding: 12px 10px; }
+  .digit { width: 44px; height: 56px; font-size: 30px; }
+  .tape { height: 36px; }
+  .wordmark h1 { font-size: 16px; letter-spacing: 0.3em; }
+  .play { padding: 8px 11px; font-size: 12px; letter-spacing: 0.16em; }
+  .btn-ghost { padding: 9px 10px; letter-spacing: 0.14em; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .digit.landed { animation: none; }
+  * { transition: none !important; }
+}

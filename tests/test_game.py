@@ -11,22 +11,22 @@ from chronotune.game import (
 
 
 def test_ladder_matches_the_spec():
-    assert SNIPPET_LADDER == (1, 2, 4, 7, 11, 16)
+    assert SNIPPET_LADDER == (1, 5, 10, 15, 20, 25)
     assert MAX_GUESSES == 6
     assert len(SNIPPET_LADDER) == MAX_GUESSES
 
 
 @pytest.mark.parametrize(
     "wrong_guesses,expected",
-    [(0, 1), (1, 2), (2, 4), (3, 7), (4, 11), (5, 16)],
+    [(0, 1), (1, 5), (2, 10), (3, 15), (4, 20), (5, 25)],
 )
 def test_snippet_grows_with_each_wrong_guess(wrong_guesses, expected):
     assert snippet_seconds(wrong_guesses) == expected
 
 
 def test_snippet_caps_at_the_final_rung():
-    assert snippet_seconds(6) == 16
-    assert snippet_seconds(99) == 16
+    assert snippet_seconds(6) == 25
+    assert snippet_seconds(99) == 25
 
 
 def test_negative_guess_count_is_rejected():

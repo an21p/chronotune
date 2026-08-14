@@ -33,7 +33,7 @@ def test_daily_returns_the_track_for_today(client):
     assert body["deezer_id"] == 20
     assert body["puzzle_number"] == 2
     assert body["max_guesses"] == 6
-    assert body["ladder"] == [1, 2, 4, 7, 11, 16]
+    assert body["ladder"] == [1, 5, 10, 15, 20, 25]
 
 
 def test_daily_never_leaks_the_answer(client):
@@ -68,7 +68,7 @@ def test_wrong_guess_gives_direction_without_the_answer(client):
     ).get_json()
 
     assert body["result"] == "later"
-    assert body["snippet_seconds"] == 2
+    assert body["snippet_seconds"] == 5
     assert "answer" not in body
 
 

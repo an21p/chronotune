@@ -23,5 +23,555 @@
     "artist": "Eminem",
     "title": "Lose Yourself",
     "reason": "wd_missing"
+  },
+  {
+    "artist": "The Beatles",
+    "title": "Come Together",
+    "reason": "no_deezer_match"
+  },
+  {
+    "artist": "The Doors",
+    "title": "Light My Fire",
+    "reason": "year_conflict"
+  },
+  {
+    "artist": "Jimi Hendrix",
+    "title": "Purple Haze",
+    "reason": "wd_missing"
+  },
+  {
+    "artist": "Aretha Franklin",
+    "title": "Respect",
+    "reason": "year_conflict"
+  },
+  {
+    "artist": "Otis Redding",
+    "title": "Dock of the Bay",
+    "reason": "no_deezer_match"
+  },
+  {
+    "artist": "Simon and Garfunkel",
+    "title": "The Sound of Silence",
+    "reason": "no_deezer_match"
+  },
+  {
+    "artist": "Nina Simone",
+    "title": "Feeling Good",
+    "reason": "no_deezer_match"
+  },
+  {
+    "artist": "Led Zeppelin",
+    "title": "Immigrant Song",
+    "reason": "no_deezer_match"
+  },
+  {
+    "artist": "David Bowie",
+    "title": "Life on Mars",
+    "reason": "year_conflict"
+  },
+  {
+    "artist": "Fleetwood Mac",
+    "title": "The Chain",
+    "reason": "year_conflict"
+  },
+  {
+    "artist": "Marvin Gaye",
+    "title": "Whats Going On",
+    "reason": "wd_missing"
+  },
+  {
+    "artist": "Sex Pistols",
+    "title": "Anarchy in the UK",
+    "reason": "wd_missing"
+  },
+  {
+    "artist": "ABBA",
+    "title": "Dancing Queen",
+    "reason": "wd_missing"
+  },
+  {
+    "artist": "Bee Gees",
+    "title": "Stayin Alive",
+    "reason": "wd_missing"
+  },
+  {
+    "artist": "Deep Purple",
+    "title": "Smoke on the Water",
+    "reason": "year_conflict"
+  },
+  {
+    "artist": "Elton John",
+    "title": "Rocket Man",
+    "reason": "no_deezer_match"
+  },
+  {
+    "artist": "Carole King",
+    "title": "Its Too Late",
+    "reason": "mb_missing"
+  },
+  {
+    "artist": "Patti Smith",
+    "title": "Because the Night",
+    "reason": "year_conflict"
+  },
+  {
+    "artist": "Kraftwerk",
+    "title": "The Model",
+    "reason": "year_conflict"
+  },
+  {
+    "artist": "The Eagles",
+    "title": "Hotel California",
+    "reason": "no_deezer_match"
+  },
+  {
+    "artist": "Steely Dan",
+    "title": "Reelin In the Years",
+    "reason": "wd_missing"
+  },
+  {
+    "artist": "Al Green",
+    "title": "Lets Stay Together",
+    "reason": "mb_missing"
+  },
+  {
+    "artist": "Michael Jackson",
+    "title": "Beat It",
+    "reason": "year_conflict"
+  },
+  {
+    "artist": "Prince",
+    "title": "Purple Rain",
+    "reason": "no_deezer_match"
+  },
+  {
+    "artist": "The Smiths",
+    "title": "This Charming Man",
+    "reason": "no_deezer_match"
+  },
+  {
+    "artist": "The Smiths",
+    "title": "How Soon Is Now",
+    "reason": "no_deezer_match"
+  },
+  {
+    "artist": "Simple Minds",
+    "title": "Dont You Forget About Me",
+    "reason": "mb_missing"
+  },
+  {
+    "artist": "Bon Jovi",
+    "title": "Livin on a Prayer",
+    "reason": "wd_missing"
+  },
+  {
+    "artist": "Guns N Roses",
+    "title": "Sweet Child o Mine",
+    "reason": "year_conflict"
+  },
+  {
+    "artist": "Eurythmics",
+    "title": "Sweet Dreams",
+    "reason": "no_deezer_match"
+  },
+  {
+    "artist": "Cyndi Lauper",
+    "title": "Girls Just Want to Have Fun",
+    "reason": "year_conflict"
+  },
+  {
+    "artist": "Whitney Houston",
+    "title": "I Wanna Dance with Somebody",
+    "reason": "no_deezer_match"
+  },
+  {
+    "artist": "Kate Bush",
+    "title": "Wuthering Heights",
+    "reason": "year_conflict"
+  },
+  {
+    "artist": "Run DMC",
+    "title": "Walk This Way",
+    "reason": "no_deezer_match"
+  },
+  {
+    "artist": "Grandmaster Flash",
+    "title": "The Message",
+    "reason": "no_deezer_match"
+  },
+  {
+    "artist": "Pixies",
+    "title": "Where Is My Mind",
+    "reason": "year_conflict"
+  },
+  {
+    "artist": "AC DC",
+    "title": "Back in Black",
+    "reason": "no_deezer_match"
+  },
+  {
+    "artist": "Journey",
+    "title": "Dont Stop Believin",
+    "reason": "mb_missing"
+  },
+  {
+    "artist": "Billy Idol",
+    "title": "Dancing with Myself",
+    "reason": "wd_missing"
+  },
+  {
+    "artist": "Radiohead",
+    "title": "Karma Police",
+    "reason": "wd_missing"
+  },
+  {
+    "artist": "Radiohead",
+    "title": "Paranoid Android",
+    "reason": "wd_missing"
+  },
+  {
+    "artist": "Oasis",
+    "title": "Dont Look Back in Anger",
+    "reason": "mb_missing"
+  },
+  {
+    "artist": "Blur",
+    "title": "Girls and Boys",
+    "reason": "no_deezer_match"
+  },
+  {
+    "artist": "Pulp",
+    "title": "Common People",
+    "reason": "no_deezer_match"
+  },
+  {
+    "artist": "The Verve",
+    "title": "Bitter Sweet Symphony",
+    "reason": "no_deezer_match"
+  },
+  {
+    "artist": "Portishead",
+    "title": "Glory Box",
+    "reason": "year_conflict"
+  },
+  {
+    "artist": "The Prodigy",
+    "title": "Firestarter",
+    "reason": "no_deezer_match"
+  },
+  {
+    "artist": "Chemical Brothers",
+    "title": "Block Rockin Beats",
+    "reason": "no_deezer_match"
+  },
+  {
+    "artist": "Fatboy Slim",
+    "title": "Praise You",
+    "reason": "no_deezer_match"
+  },
+  {
+    "artist": "Red Hot Chili Peppers",
+    "title": "Under the Bridge",
+    "reason": "year_conflict"
+  },
+  {
+    "artist": "Smashing Pumpkins",
+    "title": "1979",
+    "reason": "no_deezer_match"
+  },
+  {
+    "artist": "The Offspring",
+    "title": "Self Esteem",
+    "reason": "no_deezer_match"
+  },
+  {
+    "artist": "R E M",
+    "title": "Losing My Religion",
+    "reason": "no_deezer_match"
+  },
+  {
+    "artist": "Sinead OConnor",
+    "title": "Nothing Compares 2 U",
+    "reason": "mb_missing"
+  },
+  {
+    "artist": "Destinys Child",
+    "title": "Say My Name",
+    "reason": "mb_missing"
+  },
+  {
+    "artist": "Lauryn Hill",
+    "title": "Doo Wop",
+    "reason": "no_deezer_match"
+  },
+  {
+    "artist": "Notorious B I G",
+    "title": "Juicy",
+    "reason": "no_deezer_match"
+  },
+  {
+    "artist": "Tupac",
+    "title": "California Love",
+    "reason": "no_deezer_match"
+  },
+  {
+    "artist": "Wu-Tang Clan",
+    "title": "C R E A M",
+    "reason": "no_deezer_match"
+  },
+  {
+    "artist": "Britney Spears",
+    "title": "Baby One More Time",
+    "reason": "wd_missing"
+  },
+  {
+    "artist": "No Doubt",
+    "title": "Dont Speak",
+    "reason": "mb_missing"
+  },
+  {
+    "artist": "The Cardigans",
+    "title": "Lovefool",
+    "reason": "wd_missing"
+  },
+  {
+    "artist": "Faithless",
+    "title": "Insomnia",
+    "reason": "year_conflict"
+  },
+  {
+    "artist": "Arcade Fire",
+    "title": "Wake Up",
+    "reason": "year_conflict"
+  },
+  {
+    "artist": "Interpol",
+    "title": "Obstacle 1",
+    "reason": "no_deezer_match"
+  },
+  {
+    "artist": "Yeah Yeah Yeahs",
+    "title": "Maps",
+    "reason": "year_conflict"
+  },
+  {
+    "artist": "LCD Soundsystem",
+    "title": "Daft Punk Is Playing at My House",
+    "reason": "year_conflict"
+  },
+  {
+    "artist": "The Libertines",
+    "title": "Cant Stand Me Now",
+    "reason": "mb_missing"
+  },
+  {
+    "artist": "Gorillaz",
+    "title": "Feel Good Inc",
+    "reason": "year_conflict"
+  },
+  {
+    "artist": "Eminem",
+    "title": "The Real Slim Shady",
+    "reason": "wd_missing"
+  },
+  {
+    "artist": "Eminem",
+    "title": "Stan",
+    "reason": "wd_missing"
+  },
+  {
+    "artist": "Jay-Z",
+    "title": "99 Problems",
+    "reason": "no_deezer_match"
+  },
+  {
+    "artist": "Kanye West",
+    "title": "Through the Wire",
+    "reason": "wd_missing"
+  },
+  {
+    "artist": "Kanye West",
+    "title": "Gold Digger",
+    "reason": "wd_missing"
+  },
+  {
+    "artist": "OutKast",
+    "title": "Ms Jackson",
+    "reason": "wd_missing"
+  },
+  {
+    "artist": "Beyonce",
+    "title": "Crazy in Love",
+    "reason": "no_deezer_match"
+  },
+  {
+    "artist": "Rihanna",
+    "title": "Umbrella",
+    "reason": "wd_missing"
+  },
+  {
+    "artist": "Justin Timberlake",
+    "title": "Cry Me a River",
+    "reason": "wd_missing"
+  },
+  {
+    "artist": "MGMT",
+    "title": "Kids",
+    "reason": "year_conflict"
+  },
+  {
+    "artist": "Daft Punk",
+    "title": "Harder Better Faster Stronger",
+    "reason": "wd_missing"
+  },
+  {
+    "artist": "Justice",
+    "title": "D A N C E",
+    "reason": "no_deezer_match"
+  },
+  {
+    "artist": "Muse",
+    "title": "Supermassive Black Hole",
+    "reason": "wd_missing"
+  },
+  {
+    "artist": "Snow Patrol",
+    "title": "Run",
+    "reason": "year_conflict"
+  },
+  {
+    "artist": "Daft Punk",
+    "title": "Get Lucky",
+    "reason": "no_deezer_match"
+  },
+  {
+    "artist": "Pharrell Williams",
+    "title": "Happy",
+    "reason": "no_deezer_match"
+  },
+  {
+    "artist": "Mark Ronson",
+    "title": "Uptown Funk",
+    "reason": "no_deezer_match"
+  },
+  {
+    "artist": "Dua Lipa",
+    "title": "New Rules",
+    "reason": "wd_missing"
+  },
+  {
+    "artist": "The Weeknd",
+    "title": "Blinding Lights",
+    "reason": "wd_missing"
+  },
+  {
+    "artist": "The Weeknd",
+    "title": "Cant Feel My Face",
+    "reason": "mb_missing"
+  },
+  {
+    "artist": "Frank Ocean",
+    "title": "Thinkin Bout You",
+    "reason": "wd_missing"
+  },
+  {
+    "artist": "Drake",
+    "title": "Hotline Bling",
+    "reason": "wd_missing"
+  },
+  {
+    "artist": "Travis Scott",
+    "title": "Sicko Mode",
+    "reason": "wd_missing"
+  },
+  {
+    "artist": "Cardi B",
+    "title": "Bodak Yellow",
+    "reason": "wd_missing"
+  },
+  {
+    "artist": "Robyn",
+    "title": "Dancing On My Own",
+    "reason": "no_deezer_match"
+  },
+  {
+    "artist": "Calvin Harris",
+    "title": "Feel So Close",
+    "reason": "no_deezer_match"
+  },
+  {
+    "artist": "Swedish House Mafia",
+    "title": "Dont You Worry Child",
+    "reason": "mb_missing"
+  },
+  {
+    "artist": "Fun",
+    "title": "We Are Young",
+    "reason": "no_deezer_match"
+  },
+  {
+    "artist": "Of Monsters and Men",
+    "title": "Little Talks",
+    "reason": "year_conflict"
+  },
+  {
+    "artist": "Florence and the Machine",
+    "title": "Dog Days Are Over",
+    "reason": "no_deezer_match"
+  },
+  {
+    "artist": "Clairo",
+    "title": "Pretty Girl",
+    "reason": "wd_missing"
+  },
+  {
+    "artist": "Mac Miller",
+    "title": "Self Care",
+    "reason": "wd_missing"
+  },
+  {
+    "artist": "Anderson Paak",
+    "title": "Come Down",
+    "reason": "wd_missing"
+  },
+  {
+    "artist": "St Vincent",
+    "title": "Digital Witness",
+    "reason": "wd_missing"
+  },
+  {
+    "artist": "Olivia Rodrigo",
+    "title": "Good 4 U",
+    "reason": "wd_missing"
+  },
+  {
+    "artist": "Dua Lipa",
+    "title": "Levitating",
+    "reason": "wd_missing"
+  },
+  {
+    "artist": "Doja Cat",
+    "title": "Say So",
+    "reason": "wd_missing"
+  },
+  {
+    "artist": "Bad Bunny",
+    "title": "Dakiti",
+    "reason": "wd_missing"
+  },
+  {
+    "artist": "Fontaines D C",
+    "title": "Boys in the Better Land",
+    "reason": "no_deezer_match"
+  },
+  {
+    "artist": "Turnstile",
+    "title": "Blackout",
+    "reason": "wd_missing"
+  },
+  {
+    "artist": "Fred again",
+    "title": "Delilah",
+    "reason": "no_deezer_match"
   }
 ]

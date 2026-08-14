@@ -1,7 +1,9 @@
 "use strict";
 
-const LADDER = [1, 2, 4, 7, 11, 16];
-const MAX_GUESSES = 6;
+// Defaults only. Both are replaced by the values the API sends with every
+// round, so the ladder is defined once — in chronotune/game.py.
+let LADDER = [1, 5, 10, 15, 20, 25];
+let MAX_GUESSES = 6;
 const UNUSED = "⬜";
 const SEEN_KEY = "chronotune.seen";
 const DAILY_KEY = "chronotune.daily";
@@ -89,17 +91,31 @@ function playSnippet() {
   animateProgress(seconds);
 }
 
+/* The tape stripe: unlocked audio is inked in oxide and amber, the rest of the
+   reel is still sealed. Colours come from style.css so the two never drift. */
+const readToken = (name) =>
+  getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+
 function drawWaveform(progressSeconds = 0) {
   const canvas = $("waveform");
   const ctx = canvas.getContext("2d");
   const { width, height } = canvas;
   ctx.clearRect(0, 0, width, height);
-  if (!audioBuffer) return;
+
+  const oxide = readToken("--oxide") || "#7A5230";
+  const amber = readToken("--amber") || "#F0A93B";
+  const sealed = "#2A2E34";
+
+  if (!audioBuffer) {
+    // An empty deck still shows the reel, so the panel never looks broken.
+    ctx.fillStyle = sealed;
+    for (let x = 0; x < width; x += 4) ctx.fillRect(x, height / 2 - 1, 1, 2);
+    return;
+  }
 
   const unlockedRatio = Math.min(unlockedSeconds() / audioBuffer.duration, 1);
   const data = audioBuffer.getChannelData(0);
   const step = Math.max(1, Math.floor(data.length / width));
-  ctx.fillStyle = "currentColor";
 
   for (let x = 0; x < width; x++) {
     let peak = 0;
@@ -107,15 +123,28 @@ function drawWaveform(progressSeconds = 0) {
       peak = Math.max(peak, Math.abs(data[x * step + i] || 0));
     }
     const barHeight = Math.max(1, peak * height);
-    ctx.globalAlpha = x / width <= unlockedRatio ? 1 : 0.15;
+    const unlocked = x / width <= unlockedRatio;
+    ctx.fillStyle = unlocked ? (x % 3 === 0 ? amber : oxide) : sealed;
+    ctx.globalAlpha = unlocked ? 1 : 0.55;
     ctx.fillRect(x, (height - barHeight) / 2, 1, barHeight);
   }
 
-  if (progressSeconds > 0) {
-    ctx.globalAlpha = 1;
-    ctx.fillRect((progressSeconds / audioBuffer.duration) * width, 0, 2, height);
-  }
   ctx.globalAlpha = 1;
+  if (progressSeconds > 0) {
+    // The playhead, the one thing on the panel that moves.
+    const x = (progressSeconds / audioBuffer.duration) * width;
+    ctx.fillStyle = amber;
+    ctx.shadowColor = amber;
+    ctx.shadowBlur = 12;
+    ctx.fillRect(x, 0, 2, height);
+    ctx.shadowBlur = 0;
+  }
+}
+
+function setTransport(elapsed) {
+  const total = unlockedSeconds();
+  $("vu-fill").style.width = `${Math.min(elapsed / total, 1) * 100}%`;
+  $("secs").textContent = Math.min(elapsed, total).toFixed(1).padStart(4, "0");
 }
 
 function animateProgress(seconds) {
@@ -124,12 +153,39 @@ function animateProgress(seconds) {
     const elapsed = (now - started) / 1000;
     if (elapsed >= seconds || !audioBuffer) {
       drawWaveform();
+      setTransport(0);
       return;
     }
     drawWaveform(elapsed);
+    setTransport(elapsed);
     requestAnimationFrame(tick);
   };
   requestAnimationFrame(tick);
+}
+
+/* ---------- odometer ---------- */
+
+// The wells are a readout of #guess-input, never a second source of truth.
+function renderOdometer(value = $("guess-input").value) {
+  const typed = String(value).slice(0, 4);
+  const wells = $("odo").children;
+
+  for (let i = 0; i < wells.length; i++) {
+    const well = wells[i];
+    const char = typed[i];
+    const filled = char !== undefined;
+    const next = filled ? char : "–";
+
+    if (well.textContent !== next) {
+      well.textContent = next;
+      if (filled) {
+        well.classList.remove("landed");
+        void well.offsetWidth; // restart the drop animation
+        well.classList.add("landed");
+      }
+    }
+    well.classList.toggle("empty", !filled);
+  }
 }
 
 /* ---------- rounds ---------- */
@@ -142,8 +198,13 @@ async function startRound(attempt = 0) {
   $("guess-form").hidden = false;
   $("guesses").innerHTML = "";
   $("guess-input").value = "";
+  $("remaining").hidden = false;
   showError("");
   updateSnippetLabel();
+  renderOdometer();
+  renderRemaining();
+  setTransport(0);
+  drawWaveform();
 
   try {
     let data;
@@ -152,7 +213,9 @@ async function startRound(attempt = 0) {
       if (!response.ok) throw new Error("Could not load today's puzzle.");
       data = await response.json();
       state.puzzleNumber = data.puzzle_number;
+      $("puzzle-no").textContent = `DAILY ${state.puzzleNumber}`;
     } else {
+      $("puzzle-no").textContent = "INFINITE";
       const response = await fetch("/api/infinite", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -168,6 +231,10 @@ async function startRound(attempt = 0) {
     }
 
     state.deezerId = data.deezer_id;
+    if (Array.isArray(data.ladder) && data.ladder.length) LADDER = data.ladder;
+    if (Number.isInteger(data.max_guesses)) MAX_GUESSES = data.max_guesses;
+    updateSnippetLabel();
+    renderRemaining();
 
     try {
       await loadAudio(state.deezerId);
@@ -188,17 +255,33 @@ async function startRound(attempt = 0) {
 }
 
 function updateSnippetLabel() {
-  $("snippet-length").textContent = unlockedSeconds();
+  const seconds = unlockedSeconds();
+  $("snippet-length").textContent = seconds;
+  $("secs").textContent = seconds.toFixed(1).padStart(4, "0");
+}
+
+function renderRemaining() {
+  const left = MAX_GUESSES - state.guesses.length;
+  $("remaining").querySelector(".dir").textContent =
+    left === 1 ? "1 left" : `${left} left`;
+  $("remaining").hidden = left <= 0;
 }
 
 function renderGuess(guess, result, band) {
-  const arrow = result === "correct" ? "✓" : result === "later" ? "↑ later" : "↓ earlier";
+  const reading = result === "correct" ? "Match" : result === "later" ? "Later ↑" : "Earlier ↓";
   const row = document.createElement("div");
-  row.className = "guess-row";
+  row.className = result === "correct" ? "row solved" : "row";
+
   const left = document.createElement("span");
-  left.textContent = `${band} ${guess}`;
+  const chip = document.createElement("span");
+  chip.className = "band";
+  chip.textContent = band;
+  left.append(chip, document.createTextNode(String(guess)));
+
   const right = document.createElement("span");
-  right.textContent = arrow;
+  right.className = "dir";
+  right.textContent = reading;
+
   row.append(left, right);
   $("guesses").append(row);
 }
@@ -227,7 +310,9 @@ async function submitGuess(year) {
   state.guesses.push(year);
   state.bands.push(data.band);
   renderGuess(year, data.result, data.band);
+  renderRemaining();
   updateSnippetLabel();
+  renderOdometer();
   drawWaveform();
 
   if (data.answer !== undefined) {
@@ -253,8 +338,12 @@ function buildShareText() {
 function finishRound(data) {
   state.over = true;
   $("guess-form").hidden = true;
+  $("remaining").hidden = true;
   $("result").hidden = false;
   $("next").hidden = state.mode === "daily";
+
+  // The counter lands on the real year — the round's payoff.
+  renderOdometer(data.answer);
 
   const solved = data.result === "correct";
   $("reveal").textContent =
@@ -278,11 +367,15 @@ function finishRound(data) {
 
 $("play").addEventListener("click", playSnippet);
 
+// Wrapped so the input Event is not passed in as the value to render.
+$("guess-input").addEventListener("input", () => renderOdometer());
+
 $("guess-form").addEventListener("submit", (event) => {
   event.preventDefault();
   const value = Number.parseInt($("guess-input").value, 10);
   if (Number.isNaN(value)) return;
   $("guess-input").value = "";
+  renderOdometer();
   submitGuess(value);
 });
 
@@ -307,8 +400,8 @@ for (const mode of ["daily", "infinite"]) {
   $(`mode-${mode}`).addEventListener("click", () => {
     if (state.mode === mode) return;
     state.mode = mode;
-    $("mode-daily").classList.toggle("active", mode === "daily");
-    $("mode-infinite").classList.toggle("active", mode === "infinite");
+    $("mode-daily").classList.toggle("on", mode === "daily");
+    $("mode-infinite").classList.toggle("on", mode === "infinite");
     startRound();
   });
 }

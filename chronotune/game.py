@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
-SNIPPET_LADDER: tuple[int, ...] = (1, 2, 4, 7, 11, 16)
+# One second to open, then +4, then +5 for every guess after that. The last
+# rung stays inside the 30s preview.
+SNIPPET_LADDER: tuple[int, ...] = (1, 5, 10, 15, 20, 25)
 MAX_GUESSES: int = len(SNIPPET_LADDER)
 
 CORRECT = "🟩"
