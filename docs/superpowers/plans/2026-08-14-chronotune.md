@@ -498,6 +498,16 @@ def _fetch_json(url: str) -> dict:
         return json.load(response)
 
 
+def _escape(value: str) -> str:
+    """Escape backslashes and quotes for a Lucene phrase query.
+
+    An unescaped quote closes the phrase early, producing a malformed query
+    that returns wrong results or a 400 — which would halt a builder run
+    partway through. Mirrors the equivalent escaping in the Wikidata adapter.
+    """
+    return value.replace("\\", "\\\\").replace('"', '\\"')
+
+
 def first_release_year(
     artist: str,
     title: str,
@@ -506,7 +516,7 @@ def first_release_year(
     sleep=time.sleep,
 ) -> int | None:
     """Earliest first-release-date year across matching release groups."""
-    lucene = f'releasegroup:"{title}" AND artist:"{artist}"'
+    lucene = f'releasegroup:"{_escape(title)}" AND artist:"{_escape(artist)}"'
     query = urllib.parse.urlencode({"query": lucene, "fmt": "json", "limit": 10})
 
     try:
