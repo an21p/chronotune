@@ -77,7 +77,7 @@ def create_app(pool=None, resolve_preview=None, today=None) -> Flask:
         try:
             return jsonify(url=resolve(deezer_id))
         except PreviewUnavailable:
-            return jsonify(error="Audio unavailable — try again."), 503
+            return jsonify(error="Audio unavailable. Try again."), 503
 
     @app.post("/api/guess")
     def guess():

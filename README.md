@@ -13,11 +13,11 @@ emoji grid. Infinite mode drops the daily constraint.
   showing each guess with its direction hint." width="466">
 </p>
 
-Six tries. The tape unlocks 1s, 5s, 10s, 15s, 20s, 25s — so an early guess is
+Six tries. The tape unlocks 1s, 5s, 10s, 15s, 20s, 25s, so an early guess is
 worth more than a late one, and the reading beside it (`LATER ↑` / `EARLIER ↓`)
 narrows the range whether or not the year was close.
 
-The grid gives away the shape of a round and nothing else — no years, so
+The grid gives away the shape of a round and nothing else. No years, so
 posting it cannot spoil the day for anyone:
 
 ```
@@ -38,30 +38,30 @@ Then open http://127.0.0.1:5000
 
     .venv/bin/pytest
 
-The suite never touches the network — every network call is injected, so tests
+The suite never touches the network. Every network call is injected, so tests
 pass fixtures instead.
 
 ## How it works
 
 Two independent halves joined by a JSON contract:
 
-- **`tools/`** — the offline builder. Curates the track pool by cross-checking
+- **`tools/`**: the offline builder. Curates the track pool by cross-checking
   three sources, then writes `data/tracks.json` and `data/daily_order.json`.
-- **`chronotune/` + `app.py`** — the runtime. Reads those files and serves
+- **`chronotune/` + `app.py`**: the runtime. Reads those files and serves
   puzzles. Stateless; player progress lives in `localStorage`.
 
-`tools/` never imports from `chronotune/` and vice versa — `data/*.json` is the
+`tools/` never imports from `chronotune/` and vice versa. `data/*.json` is the
 only contract between them, and a test enforces the boundary in both directions.
 
 The frontend has a third seam. `static/app.js` never calls an endpoint; it calls
 `window.ChronotuneAPI`, which is supplied by whichever backend script loaded
-first — `api-server.js` under Flask, `api-static.js` in the deployed build. One
+first: `api-server.js` under Flask, `api-static.js` in the deployed build. One
 UI, two backends, no forked copy.
 
 Audio comes from Deezer's free 30-second preview MP3s. Those URLs carry an
 expiry token (~7h), so only the track id is stored and the URL is resolved per
 request. The MP3s serve `access-control-allow-origin: *`, which is what lets the
-browser decode them with the Web Audio API — giving a real waveform and a
+browser decode them with the Web Audio API, giving a real waveform and a
 sample-accurate stop at the snippet boundary, with no proxy in the path.
 
 ## The static build
@@ -78,7 +78,7 @@ site root or under `/chronotune/` with no base-path substitution.
 Two problems have to be solved without a server:
 
 **The audio.** `api.deezer.com` sends no `access-control-allow-origin`, so a
-browser `fetch` is blocked — but it still honours JSONP, which is how
+browser `fetch` is blocked, but it still honours JSONP, which is how
 `api-static.js` resolves the preview URL. The preview MP3 it points at *does*
 send `access-control-allow-origin: *`, so Web Audio decodes it directly, exactly
 as under Flask.
@@ -86,14 +86,14 @@ as under Flask.
 **The answers.** The server withholds `track.year` until a round ends. A static
 build has nowhere to withhold it, so the answers ship in `pool.json`, sealed
 per-track by `chronotune/vault.py`. This is obfuscation, not secrecy, and cannot
-be anything else — the browser must decode every answer, so the key travels with
+be anything else: the browser must decode every answer, so the key travels with
 the ciphertext. What it buys is that nothing is *readable*: no years or titles
 in plain sight for a player who opens devtools out of curiosity. Defeating it is
 deliberate work, which for a guessing game is the whole bar.
 
 `vault.js` reimplements the keystream in JavaScript, and a test seals in Python,
 unseals in node and asserts the two agree. That cross-language pin is the only
-thing keeping them honest — a sign-extension slip on the JS side would decode
+thing keeping them honest. A sign-extension slip on the JS side would decode
 every track to garbage.
 
 The rules are not restated in JavaScript. The ladder, guess ceiling, epoch and
@@ -113,7 +113,7 @@ A track is accepted only when **MusicBrainz and Wikidata agree on the year**.
 
 Deezer decides availability and supplies the audio but gets **no vote on the
 year**. Its `release_date` reflects whichever album edition a search lands on,
-which for catalogue artists is usually a remaster or compilation — it dates
+which for catalogue artists is usually a remaster or compilation. It dates
 Billie Jean to 2009 and Bohemian Rhapsody to 2005. Measured over 15 well-known
 tracks, requiring all three sources to agree accepted 3; requiring only
 MusicBrainz and Wikidata accepted 11, every one of them correct.
@@ -132,8 +132,8 @@ with a reason:
 | `year_conflict` | The two sources disagree |
 
 Reruns skip both accepted and rejected seeds, so adding 20 seeds costs 20
-lookups rather than re-querying the whole file. The run is resumable — progress
-is written after every acceptance — and rate-limited to MusicBrainz's published
+lookups rather than re-querying the whole file. The run is resumable (progress
+is written after every acceptance) and rate-limited to MusicBrainz's published
 1 request/second.
 
 ### `daily_order.json` is append-only
@@ -151,7 +151,7 @@ enforced invariant, not a convention:
    `tracks.json`, or if it is empty.
 3. Tests pin that the guard runs, and runs *before* the write it protects.
 
-A track rejected on a later rerun is **not** removed from `daily_order` —
+A track rejected on a later rerun is **not** removed from `daily_order`;
 removal would shift every subsequent day. It stays, and the startup check
 surfaces it as a hard error to be resolved deliberately.
 
@@ -161,17 +161,22 @@ The interface is a tape deck in dark chrome. Two rules govern it, and extending
 the UI means keeping them:
 
 - **Chrome is structure.** The metallic gradient appears only on edges that
-  would catch light on real hardware — the hairline rule, the active mode key,
+  would catch light on real hardware: the hairline rule, the active mode key,
   the Play key. Nowhere else.
 - **Amber is state.** `#F0A93B` marks what is currently live: the playhead, the
   VU fill, the unlocked seconds, the direction hints. Nothing decorative is
   amber, which is what makes it readable at a glance.
 
-Barlow Condensed for equipment labelling, Archivo for prose, IBM Plex Mono for
-every number. One column at all sizes, capped at `--deck-width` and centred,
-with the dark field bleeding to the edges.
+The reveal is the one deliberate exception. The answer comes back on a strip of
+masking tape, marker-written and stuck on askew, the way a cassette actually
+gets labelled: paper, so it is the only surface in the interface carrying
+neither chrome nor amber, which is what makes it land.
 
-The approved mockup is `docs/design/tape-deck-dark-reference.html` — the
+Barlow Condensed for equipment labelling, Permanent Marker for that one label,
+Archivo for prose, IBM Plex Mono for every number. One column at all sizes,
+capped at `--deck-width` and centred, with the dark field bleeding to the edges.
+
+The approved mockup is `docs/design/tape-deck-dark-reference.html`, and the
 implementation follows it rather than re-deriving it. See
 `docs/superpowers/specs/2026-08-14-chronotune-design.md` for the full design and
 the research behind it, and `docs/superpowers/plans/` for the implementation
@@ -182,7 +187,7 @@ plan.
 - The frontend has no automated tests; it was verified by hand, and both
   backends were driven through a full round in a real browser.
 - Answers in the static build are obfuscated, not hidden. See above.
-- Spotify stream-count mode is out of scope — no free or licit data source
+- Spotify stream-count mode is out of scope: no free or licit data source
   exists. Spotify's API exposes only a relative 0–100 popularity score.
 - Client-side enforcement of the snippet limit is not tamper-proof. It is a
   game; the cost of defeating it exceeds the reward.

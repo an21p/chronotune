@@ -197,8 +197,8 @@ def test_main_heals_a_track_recorded_without_its_order_entry(tmp_path):
 def test_main_runs_the_guard_before_every_daily_order_write(tmp_path, monkeypatch):
     """Pin that the guard is invoked, and invoked before the write.
 
-    assert_append_only cannot fire in correct code — order is only ever
-    appended to — so its value is as a tripwire for future changes. That makes
+    assert_append_only cannot fire in correct code, since order is only ever
+    appended to, so its value is as a tripwire for future changes. That makes
     it worth pinning that it actually runs, and runs before the write it
     protects. Deleting the call, or moving it after the write, must fail here.
     """

@@ -1,6 +1,6 @@
 # One "Artist - Title" per line. Blank lines and # comments are ignored.
 # A track is accepted only when MusicBrainz and Wikidata agree on the year.
-# Expect roughly 70% to survive. Use canonical studio-single titles only —
+# Expect roughly 70% to survive. Use canonical studio-single titles only:
 # anything with (Live), (Remix) or (Remastered) is rejected by design.
 
 # --- 1960s ---

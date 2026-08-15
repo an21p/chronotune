@@ -29,7 +29,7 @@ def _escape(value: str) -> str:
     """Escape backslashes and quotes for a Lucene phrase query.
 
     An unescaped quote closes the phrase early, producing a malformed query
-    that returns wrong results or a 400 — which would halt a builder run
+    that returns wrong results or a 400, which would halt a builder run
     partway through. Mirrors the equivalent escaping in the Wikidata adapter.
     """
     return value.replace("\\", "\\\\").replace('"', '\\"')

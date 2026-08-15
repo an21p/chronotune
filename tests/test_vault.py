@@ -1,7 +1,7 @@
 """The vault codec, and the pin holding its two implementations together.
 
 vault.py seals; vault.js unseals in the browser. Nothing about the language
-makes them agree — a sign-extension slip in the JS keystream would produce
+makes them agree. A sign-extension slip in the JS keystream would produce
 plausible-looking garbage on every track. So the important test here is not the
 Python round trip, it is the one that runs node.
 """

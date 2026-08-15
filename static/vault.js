@@ -2,7 +2,7 @@
 
 /* Decoder for the sealed answers in pool.json.
  *
- * Mirrors chronotune/vault.py byte for byte — tests/test_vault.py seals in
+ * Mirrors chronotune/vault.py byte for byte. tests/test_vault.py seals in
  * Python, decodes here under node, and asserts the two agree. Change one side
  * and that test fails; change both and it passes. Never change only one.
  *

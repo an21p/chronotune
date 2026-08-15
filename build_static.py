@@ -1,6 +1,6 @@
 """Build the serverless bundle deployed to GitHub Pages.
 
-Emits a directory that can be dropped at any path on any static host — every
+Emits a directory that can be dropped at any path on any static host. Every
 asset reference is relative, so the same output works at the site root and at
 /chronotune/ with no base-path substitution.
 
@@ -42,7 +42,7 @@ from chronotune.store import load_pool
 
 ROOT = Path(__file__).resolve().parent
 
-# Copied verbatim. api-server.js is deliberately absent — the static build
+# Copied verbatim. api-server.js is deliberately absent, because the static build
 # would only be able to 404 against it.
 STATIC_ASSETS = ("app.js", "style.css", "vault.js", "api-static.js")
 
@@ -90,7 +90,7 @@ def render_index(template: str) -> str:
         # The template moved out from under us. Failing here beats shipping a
         # build whose only backend is one that 404s.
         raise SystemExit(
-            f"expected {SERVER_BACKEND!r} in templates/index.html — "
+            f"expected {SERVER_BACKEND!r} in templates/index.html; "
             "update tools/build_static.py to match"
         )
     return html.replace(SERVER_BACKEND, STATIC_BACKEND)
@@ -124,7 +124,7 @@ def main() -> None:
 
     out = build(Path(args.out).resolve())
     tracks = len(json.loads((out / "pool.json").read_text())["tracks"])
-    print(f"built {out} — {tracks} tracks sealed")
+    print(f"built {out}: {tracks} tracks sealed")
 
 
 if __name__ == "__main__":

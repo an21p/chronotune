@@ -45,7 +45,7 @@ def test_raises_when_pool_is_empty(tmp_path):
 
 
 def test_raises_when_daily_order_references_an_unknown_track(tmp_path):
-    """Never skip — skipping shifts every subsequent day."""
+    """Never skip: skipping shifts every subsequent day."""
     with pytest.raises(PoolError, match="99"):
         load_pool(*_write(tmp_path, [TRACK], [42, 99]))
 

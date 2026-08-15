@@ -2,7 +2,7 @@
 
 Consensus rule: a track is accepted only when MusicBrainz and Wikidata report
 the same year. Deezer decides availability and supplies the audio, but gets no
-vote on the year — its release_date reflects whichever album edition the search
+vote on the year. Its release_date reflects whichever album edition the search
 lands on (it dates Billie Jean to 2009).
 
 Usage:
@@ -128,7 +128,7 @@ def _write_json(path: Path, payload) -> None:
 
     daily_order.json is rewritten once per accepted seed. A plain write_text
     truncates before writing, so a kill inside that window leaves a truncated
-    file — and for the file whose corruption invalidates every shared grid,
+    file, and for the file whose corruption invalidates every shared grid,
     "recoverable from git" is not the bar. Stage then os.replace.
     """
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -146,7 +146,7 @@ def main(argv=None, *, evaluate=evaluate_seed, data_dir=None) -> int:
     parser.add_argument("--seeds", default=str(DEFAULT_DATA_DIR / "seeds.txt"))
     parser.add_argument("--data-dir", default=None,
                         help="Directory holding tracks.json, daily_order.json and "
-                             "rejects.json. All three move together — they are one "
+                             "rejects.json. All three move together; they are one "
                              "consistent set and must never be split across dirs.")
     parser.add_argument("--refresh", action="store_true",
                         help="Re-evaluate seeds already recorded. Updates a track's "
@@ -155,7 +155,7 @@ def main(argv=None, *, evaluate=evaluate_seed, data_dir=None) -> int:
 
     # All three files derive from one directory. Parameterising only tracks.json
     # would let a scratch run write its pool elsewhere while still appending to
-    # the real daily_order.json — corrupting the file it looks safest to avoid.
+    # the real daily_order.json, corrupting the file it looks safest to avoid.
     base = Path(data_dir or args.data_dir or DEFAULT_DATA_DIR)
     tracks_path = base / TRACKS_NAME
     order_path = base / ORDER_NAME

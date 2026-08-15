@@ -1,6 +1,6 @@
 """Wordle-style share grid.
 
-Never includes any year — a shared result must not spoil the puzzle.
+Never includes any year, because a shared result must not spoil the puzzle.
 """
 
 from __future__ import annotations
@@ -16,7 +16,7 @@ PLAY_URL = "https://an21p.github.io/chronotune/"
 def share_text(puzzle_number: int, guesses: list[int], answer: int) -> str:
     # Clip before padding. With more than MAX_GUESSES guesses the padding
     # multiplier goes negative, and Python evaluates [x] * -1 to [] rather
-    # than raising — which would emit a grid LONGER than MAX_GUESSES cells.
+    # than raising, which would emit a grid LONGER than MAX_GUESSES cells.
     # Rendering never crashes the end-of-round screen; is_round_over is the
     # enforcement point for the guess count.
     bands = [proximity_band(guess, answer) for guess in guesses][:MAX_GUESSES]

@@ -24,7 +24,7 @@ window.ChronotuneAPI = {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ seen }),
     });
-    // 409 means the pool is exhausted — a normal end state, not a failure, so
+    // 409 means the pool is exhausted: a normal end state, not a failure, so
     // it is signalled in the payload rather than thrown.
     if (response.status === 409) return { exhausted: true };
     if (!response.ok) throw new Error("Could not load a track.");
@@ -34,7 +34,7 @@ window.ChronotuneAPI = {
   async audioUrl(deezerId) {
     const response = await fetch(`/api/audio/${deezerId}`);
     if (!response.ok) {
-      throw new Error(await readOr(response, "Audio unavailable — try again."));
+      throw new Error(await readOr(response, "Audio unavailable. Try again."));
     }
     const { url } = await response.json();
     return url;

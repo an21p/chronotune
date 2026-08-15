@@ -5,7 +5,7 @@ no entity-type constraint, because tracks are typed inconsistently as song
 (Q7366) or single (Q134556). A strict query found 1 of 5 test tracks; this one
 found 7 of 8.
 
-Wikidata fails safe — when it has no data it returns nothing rather than a
+Wikidata fails safe: when it has no data it returns nothing rather than a
 wrong year, so it can never silently poison the pool.
 """
 

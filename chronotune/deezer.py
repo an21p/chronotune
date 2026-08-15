@@ -1,7 +1,7 @@
 """Resolve a Deezer preview URL at request time.
 
 Preview URLs embed an expiry token (~7h), so they are never stored in
-tracks.json — only the track id is. The MP3 responds with
+tracks.json. Only the track id is. The MP3 responds with
 `access-control-allow-origin: *`, so the browser can read it with the Web Audio
 API without a proxy.
 """

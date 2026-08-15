@@ -93,7 +93,7 @@ def load_pool(tracks_path, order_path) -> Pool:
     if missing:
         raise PoolError(
             f"daily_order references tracks missing from tracks.json: {missing}. "
-            "Do not remove them from daily_order — that shifts every later day. "
+            "Do not remove them from daily_order; that shifts every later day. "
             "Restore the track data or fix the entry deliberately."
         )
 

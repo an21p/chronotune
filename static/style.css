@@ -1,4 +1,4 @@
-/* Chronotune — "tape deck, dark chrome".
+/* Chronotune: "tape deck, dark chrome".
    Reference mockup: docs/design/tape-deck-dark-reference.html
 
    Two rules keep this honest:
@@ -46,7 +46,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* The deck never stretches — a wider screen gets more black around it.
+/* The deck never stretches; a wider screen gets more black around it.
    min-width:0 is load-bearing: as a flex item the deck's automatic minimum
    size would otherwise be the canvas's intrinsic 600px and it would overflow
    narrow phones. */
@@ -333,11 +333,80 @@ button:disabled { opacity: 0.4; cursor: default; }
 
 #result { margin-top: 16px; }
 
+/* The reveal is the one place the deck stops being a machine. The answer comes
+   back on masking tape, hand-written in marker, stuck on slightly askew: the
+   label a cassette would actually carry. Paper, so it is the one surface here
+   with no chrome and no amber on it. */
+
 #reveal {
   margin: 0;
-  font-size: 14px;
-  line-height: 1.5;
-  color: var(--ivory);
+  display: grid;
+  gap: 9px;
+}
+
+.verdict {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+.tape-label {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 14px;
+  padding: 11px 20px 13px;
+  transform: rotate(-1.1deg);
+
+  /* Translucent paper: warm, unevenly lit, with the fibre running along the
+     strip and the adhesive shading darker at the two stuck-down ends. */
+  background:
+    linear-gradient(90deg, rgba(72, 66, 48, 0.2), transparent 12%,
+                    transparent 88%, rgba(72, 66, 48, 0.2)),
+    repeating-linear-gradient(0deg,
+      rgba(96, 88, 64, 0.045) 0 1px, transparent 1px 4px),
+    linear-gradient(178deg, #F5F2E8 0%, #EAE5D5 55%, #F2EEE2 100%);
+  color: #16181B;
+
+  /* Torn at the ends only: a strip pulled off a roll tears across, but its
+     long edges are the roll's own clean edges. */
+  clip-path: polygon(
+    4px 0%, calc(100% - 5px) 0%,
+    calc(100% - 1px) 13%, calc(100% - 7px) 27%, calc(100% - 2px) 42%,
+    calc(100% - 6px) 59%, calc(100% - 1px) 73%, calc(100% - 5px) 88%,
+    calc(100% - 3px) 100%,
+    5px 100%,
+    1px 87%, 6px 72%, 2px 57%, 7px 41%, 1px 26%, 5px 12%
+  );
+
+  /* drop-shadow, not box-shadow: clip-path would cut a box shadow away, and
+     this one has to follow the torn outline to read as a stuck-on strip. */
+  filter: drop-shadow(0 5px 11px rgba(0, 0, 0, 0.5));
+
+  font-family: "Permanent Marker", "Archivo", sans-serif;
+  animation: tape-stick 0.34s cubic-bezier(.2, .9, .3, 1.2) backwards;
+}
+
+.tape-label__track {
+  font-size: 17px;
+  line-height: 1.2;
+}
+
+.tape-label__year {
+  margin-left: auto;
+  font-size: 21px;
+  line-height: 1;
+}
+
+/* Pressed on by a thumb: down and square, not floated in. */
+@keyframes tape-stick {
+  0%   { opacity: 0; transform: rotate(-7deg) translateY(-14px) scale(1.06); }
+  70%  { opacity: 1; transform: rotate(0.6deg) translateY(2px) scale(0.995); }
+  100% { opacity: 1; transform: rotate(-1.1deg) translateY(0) scale(1); }
 }
 
 #share-grid {
@@ -372,5 +441,7 @@ button:disabled { opacity: 0.4; cursor: default; }
 
 @media (prefers-reduced-motion: reduce) {
   .digit.landed { animation: none; }
+  /* The tape still sits askew; it just stops being slapped on. */
+  .tape-label { animation: none; }
   * { transition: none !important; }
 }

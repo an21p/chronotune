@@ -67,7 +67,7 @@ class TestIndexHtml:
     def test_scripts_load_in_dependency_order(self, index: str) -> None:
         """vault.js defines unseal, api-static.js uses it to define
         window.ChronotuneAPI, and app.js reads that at startup. Matching on the
-        script tags rather than the bare filenames — the surrounding comment
+        script tags rather than the bare filenames, since the surrounding comment
         mentions app.js too."""
         order = [
             index.index(f'<script src="{name}">')

@@ -5,11 +5,11 @@
  * in the GitHub Pages build. One UI, two backends, no forked copy. */
 
 // Defaults only. Both are replaced by the values the API sends with every
-// round, so the ladder is defined once — in chronotune/game.py.
+// round, so the ladder is defined once, in chronotune/game.py.
 let LADDER = [1, 5, 10, 15, 20, 25];
 let MAX_GUESSES = 6;
 const UNUSED = "⬜";
-// Kept in step with PLAY_URL in chronotune/share.py — a test pins the two.
+// Kept in step with PLAY_URL in chronotune/share.py. A test pins the two.
 const PLAY_URL = "https://an21p.github.io/chronotune/";
 const SEEN_KEY = "chronotune.seen";
 const DAILY_KEY = "chronotune.daily";
@@ -49,7 +49,7 @@ function writeJSON(key, value) {
   try {
     localStorage.setItem(key, JSON.stringify(value));
   } catch {
-    /* private mode or quota — progress just won't persist */
+    /* private mode or quota: progress just won't persist */
   }
 }
 
@@ -66,7 +66,7 @@ async function loadAudio(deezerId) {
   const url = await window.ChronotuneAPI.audioUrl(deezerId);
 
   // The preview MP3 sends access-control-allow-origin: *, so Web Audio can
-  // decode it directly — no proxy needed.
+  // decode it directly, no proxy needed.
   const audio = await fetch(url);
   const bytes = await audio.arrayBuffer();
 
@@ -323,6 +323,32 @@ function buildShareText() {
   return `${header}\n${padded.join("")}\n${summary}\n${PLAY_URL}`;
 }
 
+/* The answer arrives on a strip of masking tape, marker-written, the way a
+   cassette actually gets labelled. Built as nodes rather than innerHTML so an
+   artist or title can never be read as markup. */
+function renderReveal(solved, data) {
+  const reveal = $("reveal");
+  reveal.replaceChildren();
+
+  const verdict = document.createElement("span");
+  verdict.className = "verdict";
+  verdict.textContent = solved ? "Got it" : "The answer was";
+
+  const label = document.createElement("span");
+  label.className = "tape-label";
+
+  const track = document.createElement("span");
+  track.className = "tape-label__track";
+  track.textContent = `${data.artist} · ${data.title}`;
+
+  const year = document.createElement("span");
+  year.className = "tape-label__year";
+  year.textContent = data.answer;
+
+  label.append(track, year);
+  reveal.append(verdict, label);
+}
+
 function finishRound(data) {
   state.over = true;
   $("guess-form").hidden = true;
@@ -330,12 +356,10 @@ function finishRound(data) {
   $("result").hidden = false;
   $("next").hidden = state.mode === "daily";
 
-  // The counter lands on the real year — the round's payoff.
+  // The counter lands on the real year, the round's payoff.
   renderOdometer(data.answer);
 
-  const solved = data.result === "correct";
-  $("reveal").textContent =
-    `${solved ? "Got it" : "The answer was"} — ${data.artist} · ${data.title} (${data.answer})`;
+  renderReveal(data.result === "correct", data);
   $("share-grid").textContent = buildShareText();
 
   if (state.mode === "daily") {

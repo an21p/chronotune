@@ -23,7 +23,7 @@ def test_chronotune_does_not_import_tools_or_call_curation_apis():
     """The reverse direction of the same boundary.
 
     The app must never import the builder, and must never reach MusicBrainz or
-    Wikidata — those are build-time concerns. Deezer is exempt: the app calls it
+    Wikidata. Those are build-time concerns. Deezer is exempt: the app calls it
     at runtime to resolve preview URLs.
     """
     from pathlib import Path

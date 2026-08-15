@@ -5,12 +5,12 @@
  * Same four calls as api-server.js, resolved in the browser instead. Two
  * things have to be solved without a server:
  *
- * 1. The answers. They ship inside pool.json, sealed per track — see vault.py
+ * 1. The answers. They ship inside pool.json, sealed per track. See vault.py
  *    for what that does and does not buy.
  * 2. The audio. api.deezer.com sends no access-control-allow-origin, so fetch
  *    is blocked outright, but it still honours JSONP. The preview MP3 it
  *    points at *does* send `access-control-allow-origin: *`, so once the URL
- *    is in hand Web Audio can decode it directly — same as under Flask.
+ *    is in hand Web Audio can decode it directly, same as under Flask.
  *
  * Rules are not restated here. The ladder, guess ceiling, epoch and proximity
  * boundaries are all baked into pool.json from chronotune/game.py and
@@ -57,7 +57,7 @@ function daysSinceEpoch(pool) {
 function trackFor(pool, deezerId) {
   const entry = pool.tracks.find((t) => t.id === deezerId);
   if (!entry) throw new Error("unknown track");
-  // Decoded on demand, never up front — an eager pass would leave all 100-odd
+  // Decoded on demand, never up front. An eager pass would leave all 100-odd
   // answers sitting in plaintext in a live object for the whole session.
   return unseal(entry.id, entry.sealed);
 }
@@ -124,7 +124,7 @@ async function resolvePreviewUrl(deezerId, attempts = 2) {
       lastError = error;
     }
   }
-  throw new Error("Audio unavailable — try again.", { cause: lastError });
+  throw new Error("Audio unavailable. Try again.", { cause: lastError });
 }
 
 /* ---------- the four calls ---------- */

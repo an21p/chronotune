@@ -1,12 +1,12 @@
 """Obfuscate the answers shipped to a static build.
 
 The Flask app withholds ``track.year`` until a round is over, so it never
-reaches the client early. A static build has no server to withhold anything —
+reaches the client early. A static build has no server to withhold anything:
 ``tracks.json`` would have to ship whole, answers included, one Ctrl-F away.
 
 This is not a fix for that. It cannot be: the browser must be able to decode
 every answer, so the key travels with the ciphertext and anyone determined can
-follow it. What it buys is that the shipped file is not *readable* — no years,
+follow it. What it buys is that the shipped file is not *readable*: no years,
 no titles in plain sight, nothing a curious player stumbles into by opening
 devtools or viewing the JSON. Defeating it is deliberate work, which for a
 guessing game is the whole bar.
@@ -15,7 +15,7 @@ Do not reach for this anywhere the secret actually matters.
 
 The keystream is xorshift32 seeded from the track id. ``vault.js`` implements
 the same generator byte for byte, and ``test_vault.py`` runs both and asserts
-they agree — that cross-language pin is the only thing keeping them honest.
+they agree. That cross-language pin is the only thing keeping them honest.
 """
 
 from __future__ import annotations
@@ -24,7 +24,7 @@ import base64
 import json
 
 # Mixed into the seed so the keystream is not simply a function of a public
-# Deezer id. Public by construction — it ships in vault.js.
+# Deezer id. Public by construction, since it ships in vault.js.
 SALT = 0x43484E54  # "CHNT"
 
 MASK = 0xFFFFFFFF
@@ -33,7 +33,7 @@ MASK = 0xFFFFFFFF
 def keystream(seed: int, length: int) -> bytes:
     """`length` bytes of xorshift32 output.
 
-    A zero state is xorshift's fixed point — it would emit an all-zero stream
+    A zero state is xorshift's fixed point: it would emit an all-zero stream
     and turn the XOR into a no-op, publishing the plaintext. Seed 0 is
     reachable (a track id equal to SALT), so it is redirected.
     """
